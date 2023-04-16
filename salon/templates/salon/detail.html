@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Home
+{% endblock %}
+{% block content %}
+    <div class="col-lg-4 col-md-4 mb-4">
+        {% if barbershop %}
+
+            <ul>
+                <li>
+
+                    <h5> <img src="/media/{{ barbershop.main_photo }}" alt='{{ barbershop.name }}' width="80" height="80" /> {{ barbershop.name }}</h5>
+                    <h5>{{ barbershop.full_description }}</h5>
+                </li>
+            </ul>
+
+        {% else %}
+
+            <p>No barbershops are available.</p>
+        {% endif %}
+    </div>
+{% endblock %}

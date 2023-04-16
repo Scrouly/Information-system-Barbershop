@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+{% block content %}
+
+    {% if barbershops %}
+        <ul>
+            {% for barbershop in barbershops %}
+                <li>
+                    <a href="{% url 'detail' barbershop.pk %}"><img src="/media/{{ barbershop.main_photo }}" alt='{{ barbershop.name }}' width="80" height="80" /> {{ barbershop.name }}{{ barbershop.name }}</a>
+                    <h>{{ barbershop.short_description }}</h>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No barbershops are available.</p>
+    {% endif %}
+
+{% endblock %}
