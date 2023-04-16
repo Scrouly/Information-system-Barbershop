@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Home
+{% endblock %}
+{% block content %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <h2 class="text-center mb-4">Sign In</h2>
+                <form action="{% url 'users:signin' %}" method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary btn-block mt-4">Sign In</button>
+                </form>
+ <hr>
+                <p class="text-center">Not yet registered ? <a href="{% url 'users:signup' %}">Register</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
