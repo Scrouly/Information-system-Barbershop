@@ -23,7 +23,8 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('barbershop/', include('salon.urls')),
-    path('users/', include('users.urls', namespace='users'))
+    path('users/', include('users.urls', namespace='users')),
+    path('services/',include('services.urls', namespace='services'))
 
 ]
 if settings.DEBUG:

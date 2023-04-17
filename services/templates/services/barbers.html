@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Home
+{% endblock %}
+{% block content %}
+    <div class="container shadow p-3 mb-5 bg-body-tertiary rounded">
+        <div class="row justify-content-md-center ">
+            {% for barber in barbers %}
+                <div class="row">
+                    <div class="col-md-8 mx-auto row-gap-3 shadow-sm p-3 mb-2 bg-body-tertiary rounded">
+                        {% if service %}
+                            <a href="{% url 'services:booking' %}?barbershop={{ barber.barbershop_id }}&barber={{ barber.id }}&service={{ service.id }}">{{ barber }}</a>
+                        {% else %}
+                            <a href="{% url 'services:booking' %}?barbershop={{ barber.barbershop_id }}&barber={{ barber.id }}">{{ barber }}</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Home
+{% endblock %}
+{% block content %}
+    <div class="container shadow p-3 mb-5 bg-body-tertiary rounded">
+        <div class="row justify-content-md-center">
+            <br>
+            <slot>Barbershop:</slot>
+            {{ barbershop.name }}
+            <br>
+
+            <div class="row shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+                <div class="col">
+
+                    {% if service %}
+
+                        <a href="{% url 'services:barbers' %}?barbershop={{ barbershop.id }}&service={{ service.id }}">
+                            <slot>Barber</slot>
+                        </a>
+                        <a href="{% url 'services:barbers' %}?barbershop={{ barbershop.id }}">
+                            <slot>All Barbers</slot>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'services:barbers' %}?barbershop={{ barbershop.id }}">
+                            <slot>Barber</slot>
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="col-md-auto">
+                    {% if barber %}
+                        <p>{{ barber }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+
+            <div class="row shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+                <div class="col">
+                    {% if barber %}
+                        <a href="{% url 'services:services' %}?barbershop={{ barbershop.id }}&barber={{ barber.id }}">Service</a>
+                        <a href="{% url 'services:services' %}?barbershop={{ barbershop.id }}">All Services</a>
+                    {% else %}
+                        <a href="{% url 'services:services' %}?barbershop={{ barbershop.id }}">Service</a>
+                    {% endif %}
+                </div>
+                <div class="col-md-auto">
+                    {% if service %}
+                        <p>{{ service }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
