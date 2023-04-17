@@ -1,11 +1,11 @@
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView
 
-from users.forms import CustomUserCreationForm, CustomUserAuthentificationForm
+from users.forms import CustomUserCreationForm, CustomUserAuthentificationForm, CustomUserProfileForm
 
 
 # Create your views here.
@@ -59,9 +59,29 @@ def register(request):
         form = CustomUserCreationForm(data=request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Вы успешно зарегестрировались')
             return HttpResponseRedirect(reverse('users:signin'))
 
     else:
         form = CustomUserCreationForm()
     context = {'form': form}
     return render(request, 'users/signup.html', context)
+
+
+def profile(request):
+    if request.method == "POST":
+        form = CustomUserProfileForm(data=request.POST, instance=request.user)
+        print(form.errors)
+        if form.is_valid():
+            print(form.data)
+            form.save()
+            return HttpResponseRedirect(reverse('users:profile'))
+    else:
+        form = CustomUserProfileForm(instance=request.user)
+    context = {'form': form}
+    return render(request, 'users/profile.html', context)
+
+
+def logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect(reverse('index'))
