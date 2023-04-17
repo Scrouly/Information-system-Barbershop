@@ -9,7 +9,7 @@
         <ul>
             {% for barbershop in barbershops %}
                 <li>
-                    <a href="{% url 'detail' barbershop.pk %}"><img src="/media/{{ barbershop.main_photo }}" alt='{{ barbershop.name }}' width="80" height="80" /> {{ barbershop.name }}{{ barbershop.name }}</a>
+                    <a href="{% url 'detail' barbershop.pk %}"><img src="/media/{{ barbershop.main_photo }}" alt='{{ barbershop.name }}' width="80" height="80" /> {{ barbershop.name }}</a>
                     <h>{{ barbershop.short_description }}</h>
                 </li>
             {% endfor %}

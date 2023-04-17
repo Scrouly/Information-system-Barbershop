@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-0c61z5bn82vy3ov*oq+f-j62+*aq^ri4s&a=y7!%ca0ykwq275
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+AUTH_USER_MODEL = 'users.CustomUser'
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'salon',
+    'users',
 ]
 
 MIDDLEWARE = [
