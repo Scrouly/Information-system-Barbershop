@@ -15,19 +15,18 @@
 
             <div class="row shadow-sm p-3 mb-5 bg-body-tertiary rounded">
                 <div class="col">
+                    <a href="
 
+
+                            {% url 'services:barbers' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">Barbers</a>
                     {% if service %}
+                        <a href="
 
-                        <a href="{% url 'services:barbers' %}?barbershop={{ barbershop.id }}&service={{ service.id }}">
-                            <slot>Barber</slot>
-                        </a>
-                        <a href="{% url 'services:barbers' %}?barbershop={{ barbershop.id }}">
+
+                                {% url 'services:barbers' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">
                             <slot>All Barbers</slot>
                         </a>
-                    {% else %}
-                        <a href="{% url 'services:barbers' %}?barbershop={{ barbershop.id }}">
-                            <slot>Barber</slot>
-                        </a>
+
                     {% endif %}
                 </div>
                 <div class="col-md-auto">
@@ -40,16 +39,31 @@
 
             <div class="row shadow-sm p-3 mb-5 bg-body-tertiary rounded">
                 <div class="col">
+                    <a href="
+
+                            {% url 'services:services' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">Services</a>
                     {% if barber %}
-                        <a href="{% url 'services:services' %}?barbershop={{ barbershop.id }}&barber={{ barber.id }}">Service</a>
-                        <a href="{% url 'services:services' %}?barbershop={{ barbershop.id }}">All Services</a>
-                    {% else %}
-                        <a href="{% url 'services:services' %}?barbershop={{ barbershop.id }}">Service</a>
+                        <a href="
+
+                                {% url 'services:services' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">All
+                            Services</a>
                     {% endif %}
                 </div>
                 <div class="col-md-auto">
                     {% if service %}
                         <p>{{ service }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+                <div class="col">
+                    <a href="
+
+                            {% url 'services:appointment' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">Appointment</a>
+                </div>
+                <div class="col-md-auto">
+                    {% if appointment %}
+                        <p>{{ appointment }}</p>
                     {% endif %}
                 </div>
             </div>

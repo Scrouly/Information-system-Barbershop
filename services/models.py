@@ -3,7 +3,6 @@ from django.db import models
 from salon.models import Barbershop
 
 
-
 class Qualifications(models.Model):
     name = models.CharField(max_length=100)
 
@@ -29,12 +28,18 @@ class ServicePrice(models.Model):
 
 
 class Booking(models.Model):
+    customer = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE, related_name='customers', null=True)
     barbershop = models.ForeignKey(Barbershop, on_delete=models.CASCADE)
     barber = models.ForeignKey('users.Barber', on_delete=models.CASCADE)
     service = models.ForeignKey(ServicePrice, on_delete=models.CASCADE)
-
+    appointment_date = models.DateField(null=True)
+    appointment_time = models.ForeignKey('services.WorkingTime',on_delete=models.CASCADE, null=True)
     def __str__(self):
         return f'{self.service}'
 
 
+class WorkingTime(models.Model):
+    hour = models.FloatField()
 
+    def __str__(self):
+        return f'Рабочее время: {self.hour}'
