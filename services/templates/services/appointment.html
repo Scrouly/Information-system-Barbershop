@@ -18,7 +18,7 @@
                                 <div class="row-md-8 mx-auto shadow-sm p-3 mb-2 bg-body-tertiary rounded">
                                     <a href="
 
-                                            {% url 'services:booking' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ day.date }}-{{ time.hour }}{% endif %}">{{ time.hour }}</a>
+                                            {% url 'services:booking' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ day.date }}-{{ time.hour|time:'H:i' }}{% endif %}">{{ time.hour|time:'H:i' }}</a>
                                 </div>
                             {% endfor %}
                         </div>

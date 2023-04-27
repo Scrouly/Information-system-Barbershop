@@ -1,18 +1,62 @@
 import datetime
 
-from django.shortcuts import render, redirect
-
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404
 from salon.models import Barbershop
+from django.urls import reverse
+from services.forms import BookingForm
 from services.models import ServicePrice, Booking, WorkingTime
-from users.models import Barber
+from users.models import Barber, CustomUser
+
+
+def booking_success(request):
+    user_booking = Booking.objects.filter(customer__username=request.user).order_by('-creation_time').first()
+    context = {'booking': user_booking, }
+    # context = {'barbershop': barbershop, 'barber': get_barber, "service": get_service, 'appointment': get_appointment}
+    return render(request, 'services/booking_confirmation.html', context)
 
 
 def booking(request):
-    barbershop = Barbershop.objects.get(pk=request.GET.get('barbershop'))
+    print(f"--GET--{request.GET}")
+    print(f"--POST--{request.POST}")
+    get_user = get_object_or_404(CustomUser, username=request.user)
+    print(get_user)
+    barbershop = Barbershop.objects.filter(pk=request.GET.get('barbershop')).first()
     get_barber = Barber.objects.all().filter(pk=request.GET.get('barber')).first()
     get_service = ServicePrice.objects.all().filter(pk=request.GET.get('service')).first()
     get_appointment = request.GET.get('appointment')
-    context = {'barbershop': barbershop, 'barber': get_barber, "service": get_service, 'appointment': get_appointment}
+    form = BookingForm()
+    # if request.method == "GET":
+    # if get_appointment:
+    #     date_str, time_str = '-'.join(get_appointment.split('-')[:3]), get_appointment.split('-')[3]
+    # print(time_str)
+    # init = {'customer': get_user,
+    #         'barbershop': barbershop,
+    #         'barber': get_barber,
+    #         'service': get_service,
+    #         'appointment_date': date_str,
+    #         'appointment_time': get_object_or_404(WorkingTime, hour__exact=time_str+":00"), }
+    # print(get_object_or_404(WorkingTime, hour__exact=time_str))
+    # print(Barbershop.objects.filter(pk=request.GET.get('barbershop')).first())
+    # form = BookingForm(init)
+    # print(form.data)
+    # print('gg')
+
+    if request.method == "POST":
+        date_str, time_str = '-'.join(get_appointment.split('-')[:3]), get_appointment.split('-')[3]
+        init = {'customer': get_user,
+                'barbershop': barbershop,
+                'barber': get_barber,
+                'service': get_service,
+                'appointment_date': date_str,
+                'appointment_time': get_object_or_404(WorkingTime, hour__exact=time_str + ":00"), }
+        form = BookingForm(init)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('services:success'))
+            print('gg WP')
+    context = {'barbershop': barbershop, 'barber': get_barber, "service": get_service, 'appointment': get_appointment,
+               'form': form}
     return render(request, 'services/booking.html', context)
 
 
@@ -24,6 +68,7 @@ def barber(request):
     services = ServicePrice.objects.all().filter(pk=get_service).first()
     if get_appointment:
         date_str, time_str = '-'.join(get_appointment.split('-')[:3]), get_appointment.split('-')[3]
+        print(date_str, time_str)
         get_barbers = get_barbers.exclude(booking__appointment_date=date_str, booking__appointment_time__hour=time_str)
     if get_service:
         get_barbers = get_barbers.filter(qualification_id=services.qualification_id)
@@ -62,10 +107,12 @@ def appointment(request):
             day['free_time'] = WorkingTime.objects.exclude(pk__in=[x.appointment_time_id for x in b])
         else:
             day['free_time'] = working_time
+            print(working_time)
         if today == curr_day:
             curr_time = int(datetime.datetime.now().strftime("%H"))
             for time in day['free_time']:
-                if int(time.hour) <= curr_time:
+                print(f"time--{time.hour.strftime('%H')}")
+                if int(time.hour.strftime('%H')) <= curr_time:
                     day['free_time'] = day['free_time'].exclude(hour=time.hour)
         if day['free_time']:
             day_list.append(day)

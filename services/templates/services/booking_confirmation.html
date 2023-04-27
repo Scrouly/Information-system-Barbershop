@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Home
+{% endblock %}
+{% block content %}
+    <div class="container shadow p-3 mb-5 bg-body-tertiary rounded">
+        <div class="row justify-content-md-center">
+            <br>
+            <slot>You have successfully signed up for barber services</slot>
+            {{ barbershop.name }}
+            <br>
+
+            <div class="row shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+                <div class="col">
+                    <p>{{ booking.barbershop }}</p>
+                    <p>{{ booking.barber }}</p>
+                    <p>{{ booking.service }}</p>
+                    <p>{{ booking.appointment_date}} {{booking.appointment_time.hour|time:'H:i'  }}</p>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}
