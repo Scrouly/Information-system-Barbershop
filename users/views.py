@@ -39,6 +39,8 @@ from users.forms import CustomUserCreationForm, CustomUserAuthentificationForm, 
 #         return render(request, self.template_name, context)
 
 def login(request):
+    print(request.GET)
+    print(request.POST)
     if request.method == "POST":
         form = CustomUserAuthentificationForm(data=request.POST)
         if form.is_valid():

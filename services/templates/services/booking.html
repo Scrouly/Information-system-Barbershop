@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Home
+{% endblock %}
+{% block content %}
+    <div class="container shadow p-3 mb-5 bg-body-tertiary rounded">
+        <div class="row justify-content-md-center">
+            <br>
+            <slot>Barbershop:</slot>
+            {{ barbershop.name }}
+            <br>
+
+            <div class="row shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+                <div class="col">
+                    <a href="
+
+
+
+
+
+
+
+
+                            {% url 'services:barbers' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">Barbers</a>
+                    {% if service %}
+                        <a href="
+
+
+
+
+
+
+
+
+                                {% url 'services:barbers' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">
+                            <slot>All Barbers</slot>
+                        </a>
+
+                    {% endif %}
+                </div>
+                <div class="col-md-auto">
+                    {% if barber %}
+                        <p>{{ barber }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+
+            <div class="row shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+                <div class="col">
+                    <a href="
+
+
+
+
+
+
+
+                            {% url 'services:services' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">Services</a>
+                    {% if barber %}
+                        <a href="
+
+
+
+
+
+
+
+                                {% url 'services:services' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">All
+                            Services</a>
+                    {% endif %}
+                </div>
+                <div class="col-md-auto">
+                    {% if service %}
+                        <p>{{ service }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+                <div class="col">
+                    <a href="
+
+
+
+
+
+
+
+                            {% url 'services:appointment' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">Appointment</a>
+                </div>
+                <div class="col-md-auto">
+                    {% if appointment %}
+                        <p>{{ appointment }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col">
+                {% if barbershop and barber and service and appointment %}
+                    {#                    <a class="btn btn-outline-success" href="{% url 'services:success' %}" >Enroll</a>#}
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form }}
+                        <button type="submit" value="Submit" class="btn btn-outline-success">Enroll</button>
+                    </form>
+                {% endif %}
+            </div>
+
+            {#            <form method="POST" action="{% url 'services:booking' %}">{% csrf_token %}#}
+            {#                    <input type="hidden" name="order_id" value="{{ order_id }}">#}
+            {#                    <input type="hidden" name="email" value="{{ email }}">#}
+            {#                    <input type="hidden" name="service" value="{{ service }}">#}
+            {#                    <input type="hidden" name="stylist" value="{{ stylist }}">#}
+            {#                    <input type="hidden" name="date" value="{{ date }}">#}
+            {#                    <input type="hidden" name="time" value="{{ time }}">#}
+            {#                    <input type="hidden" name="amount" value="{{ amount }}">#}
+            {#                    <input type="hidden" name="name" value="{{ name }}">#}
+            {#                    <button type="submit">gg</button>#}
+            {#            </form>#}
+
+        </div>
+    </div>
+
+{% endblock %}
