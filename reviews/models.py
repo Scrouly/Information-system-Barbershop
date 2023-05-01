@@ -1,21 +1,18 @@
 from django.db import models
+
+from services.models import Booking
 from users.models import CustomUser, Barber
 
 
 class Review(models.Model):
-    EVALUATION_CHOICES = [
-        (1, "One"),
-        (2, "Two"),
-        (3, "Three"),
-        (4, "Four"),
-        (5, "Five"),
-    ]
-
     user = models.ForeignKey(CustomUser, on_delete=models.PROTECT)
+    appointment = models.ForeignKey(Booking, on_delete=models.PROTECT, null=True)
     barber = models.ForeignKey(Barber, on_delete=models.PROTECT, related_name="review_barber")
-    review_text = models.TextField()
-    evaluation = models.CharField(max_length=1, choices=EVALUATION_CHOICES, default=5)
-    writing_time = models.DateTimeField(auto_now_add=True)
-
+    subject = models.CharField(max_length=100, null=True)
+    review = models.TextField(max_length=500, null=True)
+    rating = models.FloatField(default=0)
+    status = models.BooleanField(default=True)
+    created_time = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now=True)
 
 # Create your models here.

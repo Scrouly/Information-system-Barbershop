@@ -33,7 +33,8 @@ class Booking(models.Model):
     service = models.ForeignKey(ServicePrice, on_delete=models.CASCADE)
     appointment_date = models.DateField(null=True)
     appointment_time = models.ForeignKey('services.WorkingTime', on_delete=models.CASCADE, null=True)
-    creation_time = models.DateTimeField(auto_now_add=True, null = True)
+    creation_time = models.DateTimeField(auto_now_add=True, null=True)
+
     def __str__(self):
         return f'{self.service}'
 
@@ -43,6 +44,3 @@ class WorkingTime(models.Model):
 
     def __str__(self):
         return f'Рабочее время: {self.hour.strftime("%H:%M")}'
-
-
-

@@ -28,6 +28,7 @@
         <option value="$MODULE_DIR$/users/templates" />
         <option value="$MODULE_DIR$/salon/templates" />
         <option value="$MODULE_DIR$/services/templates" />
+        <option value="$MODULE_DIR$/reviews/templates" />
       </list>
     </option>
   </component>
