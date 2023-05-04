@@ -1,5 +1,5 @@
 import datetime
-
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from salon.models import Barbershop
@@ -118,3 +118,12 @@ def appointment(request):
             day_list.append(day)
     context = {'appointment': day_list, 'service': get_service, 'barber': get_barber, 'barbershop': get_barbershop}
     return render(request, 'services/appointment.html', context)
+
+
+def delete_booking(request, pk):
+    get_booking = get_object_or_404(Booking, pk=pk, customer=request.user, completed=False)
+    if request.method == 'POST':
+        get_booking.delete()
+        messages.success(request, 'Запись была отменена')
+        return redirect('users:profile')
+    return render(request, 'services/delete_booking.html', {'booking': get_booking})

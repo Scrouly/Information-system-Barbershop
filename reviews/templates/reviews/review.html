@@ -71,8 +71,12 @@
                 <div>
                     <input type="submit" value="Submit Review" class="btn btn-outline-success">
                     {% if review %}
-                        <a class="btn btn-outline-danger" href="{% url 'reviews:delete_review' review.pk %}" style="margin-left: 10px;">Delete</a>
+                        <a class="btn btn-outline-danger" href="{% url 'reviews:delete_review' review.pk %}"
+                           style="margin-left: 10px;">Delete</a>
                     {% endif %}
+                    <button class="btn btn-outline-warning" type="button" onclick="window.history.back()"
+                            style="margin-left: 10px;">Back
+                    </button>
                 </div>
 
                 {#                {% else %}#}

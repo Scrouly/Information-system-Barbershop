@@ -5,6 +5,8 @@ from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView
 
+from reviews.models import Review
+from services.models import Booking
 from users.forms import CustomUserCreationForm, CustomUserAuthentificationForm, CustomUserProfileForm
 
 
@@ -71,8 +73,19 @@ def register(request):
 
 
 def profile(request):
+    get_appointments = Booking.objects.filter(customer=request.user)
+    [appointment.save() for appointment in get_appointments]
+    get_completed_appointments = get_appointments.filter(completed=True).order_by('-appointment_date',
+                                                                                  '-appointment_time')
+    get_last_appointment = get_completed_appointments.first()
+    print(get_last_appointment)
+    get_appointments = get_appointments.filter(completed=False).order_by('appointment_date', 'appointment_time')
+    print(get_appointments)
+    get_reviews = Review.objects.filter(user=request.user)
+    get_booking_reviews = [review.appointment for review in get_reviews]
+    print([review.appointment for review in get_reviews])
     if request.method == "POST":
-        form = CustomUserProfileForm(data=request.POST, instance=request.user)
+        form = CustomUserProfileForm(data=request.POST, files=request.FILES, instance=request.user)
         print(form.errors)
         if form.is_valid():
             print(form.data)
@@ -80,7 +93,8 @@ def profile(request):
             return HttpResponseRedirect(reverse('users:profile'))
     else:
         form = CustomUserProfileForm(instance=request.user)
-    context = {'form': form}
+    context = {'form': form, "appointments": get_appointments, 'completed_appointments': get_completed_appointments,
+               "last_appointment": get_last_appointment, "reviews": get_booking_reviews}
     return render(request, 'users/profile.html', context)
 
 

@@ -81,7 +81,9 @@ def delete_review(request, pk):
     if request.method == 'POST':
         get_review.delete()
         messages.success(request, 'Your review has been deleted.')
-        return redirect('barbershop')
+        return redirect('users:profile')
     return render(request, 'reviews/delete_review.html', {'review': get_review})
+
+
 
 # Create your views here.

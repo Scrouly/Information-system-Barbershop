@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
-
+from .widgets import CustomClearableFileInput
 from users.models import CustomUser
 
 
@@ -19,28 +19,28 @@ class CustomUserCreationForm(UserCreationForm):
             "placeholder": "Enter your username"
         })
     )
-    gender = forms.ChoiceField(
-        label="Gender",
-        widget=forms.Select(attrs={"class": "form-control"}),
-        choices=(("male", "Male"), ("female", "Female"), ("other", "Other")),
-    )
-    phone_number = forms.CharField(
-        label="Phone Number",
-        widget=forms.TextInput(attrs={
-            "class": "form-control",
-            "placeholder": "Enter your phone number"
-        }),
-        max_length=15,
-    )
-    birth_data = forms.DateField(
-        label="Birth Date",
-        widget=forms.DateInput(attrs={
-            "class": "form-control",
-            "type": "date",
-            "placeholder": "YYYY-MM-DD"
-        }),
-        input_formats=["%Y-%m-%d"],
-    )
+    # gender = forms.ChoiceField(
+    #     label="Gender",
+    #     widget=forms.Select(attrs={"class": "form-control"}),
+    #     choices=(("male", "Male"), ("female", "Female"), ("other", "Other")),
+    # )
+    # phone_number = forms.CharField(
+    #     label="Phone Number",
+    #     widget=forms.TextInput(attrs={
+    #         "class": "form-control",
+    #         "placeholder": "Enter your phone number"
+    #     }),
+    #     max_length=15,
+    # )
+    # birth_data = forms.DateField(
+    #     label="Birth Date",
+    #     widget=forms.DateInput(attrs={
+    #         "class": "form-control",
+    #         "type": "date",
+    #         "placeholder": "YYYY-MM-DD"
+    #     }),
+    #     input_formats=["%Y-%m-%d"],
+    # )
     password1 = forms.CharField(
         label="Password",
         widget=forms.PasswordInput(attrs={
@@ -58,7 +58,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'username', 'gender', 'phone_number', 'birth_data', 'password1', 'password2')
+        fields = ('email', 'username', 'password1', 'password2')
 
 
 class CustomUserAuthentificationForm(AuthenticationForm):
@@ -116,7 +116,12 @@ class CustomUserProfileForm(UserChangeForm):
         input_formats=["%Y-%m-%d"],
         required=False,
     )
+    profile_img = forms.ImageField(
+        label='Your Image',
+        widget=forms.FileInput(
+            attrs={"class": "form-control-file form-control"})
+    )
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'email', 'first_name', 'last_name', 'gender', 'phone_number', 'birth_data')
+        fields = ('profile_img', 'username', 'email', 'first_name', 'last_name', 'gender', 'phone_number', 'birth_data')

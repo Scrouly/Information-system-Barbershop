@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+    <h1>Отмена записи на "{{ booking.appointment_date }} {{ booking.appointment_time.hour|time:'H:i' }}"</h1>
+    <form method="post">
+        {% csrf_token %}
+        <p>Вы уверены что хотите отменить запись?</p>
+
+        <div >
+            <input class="btn btn-outline-danger" type="submit" value="Отменить">
+
+            <button class="btn btn-outline-warning" type="button" onclick="window.history.back()"
+                    style="margin-left: 10px;">Назад
+            </button>
+        </div>
+
+
+
+    </form>
+{% endblock %}

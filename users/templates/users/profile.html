@@ -5,54 +5,359 @@
 {% block title %}
     Home
 {% endblock %}
+{% block head %}
+
+{% endblock %}
 {% block content %}
-    <div class="container mt-5">
-        <div class="row">
-
-
-            <div class="col-md-9">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Редактирование профиля</h5>
-                        <form action="{% url 'users:profile' %}" method="post">
-                            {% csrf_token %}
-
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Профиль</h5>
-                                    <div class="card-title">{{ form.username }}</div>
-                                    <div class="card-text">{{ form.email }}</div>
-                                </div>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label for="{{ form.first_name.id_for_label }}">Имя</label>
-                                {{ form.first_name }}
-                            </div>
-                            <div class="form-group">
-                                <label for="{{ form.last_name.id_for_label }}">Фамилия</label>
-                                {{ form.last_name }}
-                            </div>
-                            <div class="form-group">
-                                <label for="{{ form.gender.id_for_label }}">Пол</label>
-                                {{ form.gender }}
-                            </div>
-                            <div class="form-group">
-                                <label for="{{ form.phone_number.id_for_label }}">Телефон</label>
-                                {{ form.phone_number }}
-                            </div>
-                            <div class="form-group">
-                                <label for="{{ form.birth_data.id_for_label }}">Дата рождения</label>
-                                {{ form.birth_data }}
-                            </div>
-                            <br>
-                                <button type="submit" class="btn btn-primary">Сохранить</button>
-
-                        </form>
-                    </div>
-                </div>
+    <main id="main" class="main">
+        {% if messages %}
+            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                {% for massage in messages %}
+                    <span>{{ massage }}</span>
+                {% endfor %}
+                <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
             </div>
-        </div>
-    </div>
+        {% endif %}
+
+        <div class="pagetitle">
+            <h1>Profile</h1>
+
+        </div><!-- End Page Title -->
+        <section class="section profile">
+
+            <div class="row">
+                {#                Мини инфа о пользователе#}
+                <div class="col-xl-4">
+
+                    <div class="card">
+
+                        <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                            <img src="
+
+                                    {% if form.instance.profile_img %}{{ form.instance.profile_img.url }}{% else %}/static/images/default-profile-img.png{% endif %}"
+                                 alt="My Image" class="rounded-circle">
+                            <h2>{{ form.first_name.value }} {{ form.last_name.value }}</h2>
+                            <h3>Клиент</h3>
+                        </div>
+                    </div>
+                    {#                Мини инфа о записях#}
+                    <div class="card">
+
+
+                        <div class="card-body profile-card pt-4 d-flex flex-column ">
+                            <h2 style="margin-top: 1px ">Мои записи</h2>
+                            <hr>
+
+                            <div class="accordion accordion-flush" id="accordionFlushMyBooking">
+                                {% if appointments %}
+                                    {% for appointment in appointments %}
+                                        <div class="accordion-item">
+                                            <h1 class="accordion-header" id="flush-heading{{ appointment.pk }}">
+                                                <button class="accordion-button collapsed" type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#flush-collapse{{ appointment.pk }}"
+                                                        aria-expanded="false"
+                                                        aria-controls="flush-collapse{{ appointment.pk }}">
+                                                    {{ appointment.appointment_date }} {{ appointment.appointment_time.hour|time:'H:i' }}
+                                                </button>
+                                            </h1>
+
+                                            <div id="flush-collapse{{ appointment.pk }}"
+                                                 class="accordion-collapse collapse"
+                                                 aria-labelledby="flush-heading{{ appointment.pk }}"
+                                                 data-bs-parent="#accordionFlushMyBooking">
+                                                <div class="accordion-body">
+                                                    <h3>{{ appointment.barbershop }} {{ appointment.barber }}</h3>
+                                                    <h3>{{ appointment.service }}</h3>
+                                                    <a href="{% url 'services:delete_booking' appointment.pk %}"
+                                                       class="btn btn-outline-danger">Отменить</a>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+
+                                    {% endfor %}
+
+                                {% else %}
+                                    <h3>У вас нет активных записей</h3>
+                                {% endif %}
+                                {% if last_appointment %}
+                                    <br>
+                                    <div class="accordion-item">
+                                        <a class="btn btn-outline-success accordion-header"
+                                           href="{% url 'reviews:review' last_appointment.pk %}">Оставить отзыв о
+                                            последнем
+                                            визите</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {#                Конец Мини инфа о записях#}
+                </div>
+                {#                Конец Мини инфа о пользователе#}
+
+                <div class="col-xl-8">
+
+                    <div class="card">
+                        <div class="card-body pt-3">
+                            <!-- Bordered Tabs -->
+                            <ul class="nav nav-tabs nav-tabs-bordered">
+
+                                <li class="nav-item">
+                                    <button class="nav-link active" data-bs-toggle="tab"
+                                            data-bs-target="#profile-overview">Overview
+                                    </button>
+                                </li>
+
+                                <li class="nav-item">
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">
+                                        Edit Profile
+                                    </button>
+                                </li>
+
+
+                                <li class="nav-item">
+                                    <button class="nav-link" data-bs-toggle="tab"
+                                            data-bs-target="#profile-appointments">Completed appointments
+                                    </button>
+                                </li>
+
+                            </ul>
+                            {#                           Информация о пользователе #}
+                            <div class="tab-content pt-2">
+                                <div class="tab-pane fade show active profile-overview" id="profile-overview">
+
+                                    {#                                        <h5 class="card-title">About</h5>#}
+                                    {#                                        <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam#}
+                                    {#                                            maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor.#}
+                                    {#                                            Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi#}
+                                    {#                                            sed ea saepe at unde.</p>#}
+
+                                    <h5 class="card-title">Profile Details</h5>
+
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label ">Ф.И.О</div>
+                                        <div class="col-lg-9 col-md-8">{{ form.first_name.value }} {{ form.last_name.value }}</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label">Гендер</div>
+                                        <div class="col-lg-9 col-md-8">{{ form.gender.value }}</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label">Дата рождения</div>
+                                        <div class="col-lg-9 col-md-8">{{ form.birth_data.value }}</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label">Номер телефона</div>
+                                        <div class="col-lg-9 col-md-8">{{ form.phone_number.value }}</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label">Имя пользователя</div>
+                                        <div class="col-lg-9 col-md-8">{{ form.username.value }}</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label">Email</div>
+                                        <div class="col-lg-9 col-md-8">{{ form.email.value }}</div>
+                                    </div>
+
+
+                                </div>
+
+                                {#                            Конец Информация о пользователе #}
+                                {#                             Редактирование профиля #}
+                                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                                    <form action="{% url 'users:profile' %}" method="post"
+                                          enctype="multipart/form-data">
+                                        {% csrf_token %}
+
+                                        <div class="row mb-3" hidden="hidden">
+                                            <label for="{{ form.username.id_for_label }}"
+                                                   class="col-md-4 col-lg-3 col-form-label">Имя пользователя</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                {{ form.username }}
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3" hidden="hidden">
+                                            <label for="{{ form.email.id_for_label }}"
+                                                   class="col-md-4 col-lg-3 col-form-label">Email</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                {{ form.email }}
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile
+                                                Image</label>
+
+                                            <div class="col-md-8 col-lg-9">
+
+                                                <img src="
+
+                                                        {% if form.instance.profile_img %}{{ form.instance.profile_img.url }}{% else %}/static/images/default-profile-img.png{% endif %}"
+                                                     alt="My Image">
+
+                                                <div class="pt-2">
+                                                    {{ form.profile_img }}
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="{{ form.first_name.id_for_label }}"
+                                                   class="col-md-4 col-lg-3 col-form-label">Имя</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                {{ form.first_name }}
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="{{ form.last_name.id_for_label }}"
+                                                   class="col-md-4 col-lg-3 col-form-label">Фамилия</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                {{ form.last_name }}
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="{{ form.gender.id_for_label }}"
+                                                   class="col-md-4 col-lg-3 col-form-label">Пол</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                {{ form.gender }}
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="{{ form.phone_number.id_for_label }}"
+                                                   class="col-md-4 col-lg-3 col-form-label">Телефон</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                {{ form.phone_number }}
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="{{ form.birth_data.id_for_label }}"
+                                                   class="col-md-4 col-lg-3 col-form-label">Дата рождения</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                {{ form.birth_data }}
+                                            </div>
+                                        </div>
+
+                                        <br>
+                                        <button type="submit" class="btn btn-primary">Сохранить</button>
+
+                                    </form>
+
+
+                                </div>
+                                {#                            Конец Редактирование профиля#}
+                                {#                                Мои записи#}
+
+                                <div class="tab-pane fade profile-appointments pt-4"
+                                     id="profile-appointments">
+                                    {% if completed_appointments %}
+                                        {% for appointment in completed_appointments %}
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 label ">{{ appointment.appointment_date }}
+                                                    <br>{{ appointment.appointment_time.hour|time:'H:i' }}</div>
+
+                                                <div class="col-lg-5 col-md-5">
+                                                    <div class="row">Barbershop: {{ appointment.barbershop }}</div>
+                                                    <div class="row">Barber: {{ appointment.barber }} </div>
+                                                    <div class="row">Price: {{ appointment.service.price }}
+                                                        BYN
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3">
+                                                    {% if appointment in reviews %}
+                                                        <a class=" btn btn-outline-warning"
+                                                           href="{% url 'reviews:review' appointment.pk %}">Редактировать
+                                                            отзыв</a>
+                                                    {% else %}
+                                                        <a class=" btn btn-outline-success"
+                                                           href="{% url 'reviews:review' appointment.pk %}">Оставить
+                                                            отзыв</a>
+                                                    {% endif %}
+
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <br>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 text-center ">У вас нету завершенных записей</div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                {#                                Конец Мои записи#}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+        </section>
+    </main>
+
+    {#    <div class="container mt-5">#}
+    {#        <div class="row">#}
+    {##}
+    {##}
+    {#            <div class="col-md-9">#}
+    {#                <div class="card">#}
+    {#                    <div class="card-body">#}
+    {#                        <h5 class="card-title">Редактирование профиля</h5>#}
+    {#                            <form action="{% url 'users:profile' %}" method="post">#}
+    {#                                {% csrf_token %}#}
+    {##}
+    {#                                <div class="card">#}
+    {#                                    <div class="card-body">#}
+    {#                                        <h5 class="card-title">Профиль</h5>#}
+    {#                                        <div class="card-title">{{ form.username }}</div>#}
+    {#                                        <div class="card-text">{{ form.email }}</div>#}
+    {#                                    </div>#}
+    {#                                </div>#}
+    {##}
+    {##}
+    {#                                <div class="form-group">#}
+    {#                                    <label for="{{ form.first_name.id_for_label }}">Имя</label>#}
+    {#                                    {{ form.first_name }}#}
+    {#                                </div>#}
+    {#                                <div class="form-group">#}
+    {#                                    <label for="{{ form.last_name.id_for_label }}">Фамилия</label>#}
+    {#                                    {{ form.last_name }}#}
+    {#                                </div>#}
+    {#                                <div class="form-group">#}
+    {#                                    <label for="{{ form.gender.id_for_label }}">Пол</label>#}
+    {#                                    {{ form.gender }}#}
+    {#                                </div>#}
+    {#                                <div class="form-group">#}
+    {#                                    <label for="{{ form.phone_number.id_for_label }}">Телефон</label>#}
+    {#                                    {{ form.phone_number }}#}
+    {#                                </div>#}
+    {#                                <div class="form-group">#}
+    {#                                    <label for="{{ form.birth_data.id_for_label }}">Дата рождения</label>#}
+    {#                                    {{ form.birth_data }}#}
+    {#                                </div>#}
+    {#                                <br>#}
+    {#                                    <button type="submit" class="btn btn-primary">Сохранить</button>#}
+    {##}
+    {#                            </form>#}
+    {#                    </div>#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </div>#}
+
 {% endblock %}
