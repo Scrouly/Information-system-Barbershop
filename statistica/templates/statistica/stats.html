@@ -1,0 +1,450 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Home
+{% endblock %}
+{% block content %}
+    <section class="section dashboard">
+        <div class="pagetitle">
+            <h1>Statistic of {% if barbershop %}{{ barbershop.name }}{% endif %}{% if barber %} - {{ barber.username }}{% endif %}</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'stats:day_stats_info' barbershop.pk %}">Today</a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="{% url 'stats:week_stats_info' barbershop.pk %}">This week</a></li>
+                    <li class="breadcrumb-item "><a href="{% url 'stats:month_stats_info' barbershop.pk %}">This month</a>
+                    </li>
+                </ol>
+            </nav>
+        <h6>{{ interim }}</h6>
+        </div><!-- End Page Title -->
+        <div class="row">
+
+            <!-- Left side columns -->
+            <div class="col-lg-8">
+                <div class="row">
+
+                    <!-- Haircuts Card -->
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card sales-card">
+
+                            <div class="card-body">
+                                <h5 class="card-title">Haircuts <span>| {% if interim == "week" %}This week{% elif interim == "month"%}This month{% else %}Today{% endif %}</span></h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center ">
+                                        <i class="bi bi-scissors"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ current_appointments }}</h6>
+                                        <span class="text-{% if appointments_difference < 0 %}danger{% else %}success{% endif %} small pt-1 fw-bold">{{ appointments_difference }}%</span>
+                                        <span
+                                                class="text-muted small pt-2 ps-1">{% if appointments_difference < 0 %}
+                                            decrease{% else %}increase{% endif %}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- End Haircuts Card -->
+
+                    <!-- Revenue Card -->
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card revenue-card">
+
+                            <div class="card-body">
+                                <h5 class="card-title">Revenue <span>| {% if interim == "week" %}This week{% elif interim == "month"%}This month{% else %}Today{% endif %}</span></h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-cash-stack"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6 {% if current_revenue > 999 %}style="font-size: 20px;"{% endif %}>{{ current_revenue }} BYN</h6>
+                                        <span class="text-{% if revenue_difference < 0 %}danger{% else %}success{% endif %} small pt-1 fw-bold">{{ revenue_difference }}%</span>
+                                        <span
+                                                class="text-muted small pt-2 ps-1">{% if revenue_difference < 0 %}
+                                            decrease{% else %}increase{% endif %}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- End Revenue Card -->
+
+                    <!-- Customers Card -->
+                    <div class="col-xxl-4 col-xl-12">
+
+                        <div class="card info-card customers-card">
+
+                            <div class="card-body">
+                                <h5 class="card-title">Customers <span>| {% if interim == "week" %}This week{% elif interim == "month"%}This month{% else %}Today{% endif %}</span></h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ current_customers }}</h6>
+                                        <span class="text-{% if customers_difference < 0 %}danger{% else %}success{% endif %} small pt-1 fw-bold">{{ customers_difference }}%</span>
+                                        <span
+                                                class="text-muted small pt-2 ps-1">{% if customers_difference < 0 %}
+                                            decrease{% else %}increase{% endif %}</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div><!-- End Customers Card -->
+
+                    <!-- Reports -->
+                    <div class="col-12">
+                        <div class="card">
+
+
+                            <div class="card-body">
+                                <h5 class="card-title">Haircuts <span>/ {% if interim == "week" %}This week - Previous week{% elif interim == "month"%}This month - Previous month{% else %}Today - Yesterday{% endif %}</span></h5>
+
+                                <!-- Line Chart -->
+                                <div id="reportsChart"></div>
+
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", () => {
+                                        new ApexCharts(document.querySelector("#reportsChart"), {
+                                            series: [{
+                                                name: '{% if interim == "week" %}this week{% elif interim == "month"%}this month{% else %}Today{% endif %} haircuts',
+                                                data: {{current_appointments_per_interim|safe}},
+                                            }, {
+                                                name: '{% if interim == "week" %}7 days ago{% elif interim == "month"%}30 days ago{% else %}Yesterday{% endif %} haircuts',
+                                                data: {{previous_appointments_per_interim|safe}},
+                                            },],
+                                            chart: {
+                                                height: 350,
+                                                type: 'area',
+                                                toolbar: {
+                                                    show: false
+                                                },
+                                            },
+                                            markers: {
+                                                size: 4
+                                            },
+                                            colors: ['#4154f1', '#f1416a',],
+                                            fill: {
+                                                type: "gradient",
+                                                gradient: {
+                                                    shadeIntensity: 1,
+                                                    opacityFrom: 0.3,
+                                                    opacityTo: 0.4,
+                                                    stops: [0, 90, 100]
+                                                }
+                                            },
+                                            dataLabels: {
+                                                enabled: false
+                                            },
+                                            stroke: {
+                                                curve: 'smooth',
+                                                width: 2
+                                            },
+                                            xaxis: {
+
+                                                categories: {{ time|safe }}
+                                            },
+
+                                        }).render();
+                                    });
+                                </script>
+                                <!-- End Line Chart -->
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-12">
+
+                            <div class="card">
+
+
+                                <div class="card-body pb-0">
+                                    <h5 class="card-title">Revenue <span>/ {% if interim == "week" %}This week - Previous week{% elif interim == "month"%}This month - Previous month{% else %}Today - Yesterday{% endif %}</span></h5>
+
+                                    <!-- Line Chart -->
+                                    <div id="reportsChart1"></div>
+
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", () => {
+                                            new ApexCharts(document.querySelector("#reportsChart1"), {
+                                                series: [{
+                                                    name: '{% if interim == "week" %}this week{% elif interim == "month"%}this month{% else %}Today{% endif %} revenue',
+                                                    data: {{current_revenue_per_interim|safe}},
+                                                }, {
+                                                    name: '{% if interim == "week" %}7 days ago{% elif interim == "month"%}30 days ago{% else %}Yesterday{% endif %} revenue',
+                                                    data: {{previous_revenue_per_interim|safe}},
+                                                },],
+                                                chart: {
+                                                    height: 350,
+                                                    type: 'area',
+                                                    toolbar: {
+                                                        show: false
+                                                    },
+                                                },
+                                                markers: {
+                                                    size: 4
+                                                },
+                                                colors: ['#2eca6a', '#f1416a'],
+                                                fill: {
+                                                    type: "gradient",
+                                                    gradient: {
+                                                        shadeIntensity: 1,
+                                                        opacityFrom: 0.3,
+                                                        opacityTo: 0.4,
+                                                        stops: [0, 90, 100]
+                                                    }
+                                                },
+                                                dataLabels: {
+                                                    enabled: false
+                                                },
+                                                stroke: {
+                                                    curve: 'smooth',
+                                                    width: 2
+                                                },
+                                                xaxis: {
+
+                                                    categories: {{ time|safe }}
+                                                },
+
+                                            }).render();
+                                        });
+                                    </script>
+                                    <!-- End Line Chart -->
+
+                                </div>
+
+                            </div>
+                        </div><!-- End Reports -->
+                    </div><!-- End Reports -->
+                    <div class="col-12">
+                        <div class="card">
+
+
+                            <div class="card-body pb-0">
+                                <h5 class="card-title">Customers <span>/ {% if interim == "week" %}This week - Previous week{% elif interim == "month"%}This month - Previous month{% else %}Today - Yesterday{% endif %}</span></h5>
+
+                                <!-- Line Chart -->
+                                <div id="reportsChart2"></div>
+
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", () => {
+                                        new ApexCharts(document.querySelector("#reportsChart2"), {
+                                            series: [{
+                                                name: '{% if interim == "week" %}this week{% elif interim == "month"%}this month{% else %}Today{% endif %} customers',
+                                                data: {{current_customers_per_interim|safe}},
+                                            }, {
+                                                name: '{% if interim == "week" %}7 days ago{% elif interim == "month"%}30 days ago{% else %}Yesterday{% endif %} customers',
+                                                data: {{previous_customers_per_interim|safe}},
+                                            },],
+                                            chart: {
+                                                height: 350,
+                                                type: 'area',
+                                                toolbar: {
+                                                    show: false
+                                                },
+                                            },
+                                            markers: {
+                                                size: 4
+                                            },
+                                            colors: ['#ff771d', '#f1416a'],
+                                            fill: {
+                                                type: "gradient",
+                                                gradient: {
+                                                    shadeIntensity: 1,
+                                                    opacityFrom: 0.3,
+                                                    opacityTo: 0.4,
+                                                    stops: [0, 90, 100]
+                                                }
+                                            },
+                                            dataLabels: {
+                                                enabled: false
+                                            },
+                                            stroke: {
+                                                curve: 'smooth',
+                                                width: 2
+                                            },
+                                            xaxis: {
+
+                                                categories: {{ time|safe }}
+                                            },
+
+                                        }).render();
+                                    });
+                                </script>
+                                <!-- End Line Chart -->
+
+                            </div>
+
+                        </div>
+                    </div><!-- End Reports -->
+
+                </div>
+            </div><!-- End Left side columns -->
+
+            <!-- Right side columns -->
+
+            <div class="col-lg-4">
+
+                <div class="col-xxl-12 col-xl-12">
+                    <div class="card review-card info-card">
+
+                        <div class="card-body">
+                            <h5 class="card-title">Stars <span>| {% if interim == "week" %}This week{% elif interim == "month"%}This month{% else %}Today{% endif %}</span></h5>
+
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6>{{ current_reviews }} reviews</h6>
+                                    <span class="text-muted small pt-1 fw-bold">average</span>
+                                    <span class="text-{% if current_average_rating > 3.5 %}success{% else %}danger{% endif %} small pt-1 fw-bold">{{ current_average_rating }}</span>
+                                    <span
+                                            class="text small pt-2 ps-1"><i class="bi bi-star-fill"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card">
+
+                    <div class="card-body pb-0">
+                        <h5 class="card-title">Reviews<span>| {% if interim == "week" %}This week{% elif interim == "month"%}This month{% else %}Today{% endif %}</span></h5>
+
+                        <div id="trafficChart1" style="min-height: 400px;" class="echart"></div>
+
+                        <script>
+                            document.addEventListener("DOMContentLoaded", () => {
+                                echarts.init(document.querySelector("#trafficChart1")).setOption({
+                                    tooltip: {
+                                        trigger: 'item'
+                                    },
+                                    legend: {
+                                        top: '0%',
+                                        left: 'center'
+                                    },
+                                    series: [{
+                                        name: "Reviews",
+                                        type: 'pie',
+                                        radius: ['40%', '70%'],
+                                        avoidLabelOverlap: false,
+                                        label: {
+                                            show: false,
+                                            position: 'center'
+                                        },
+                                        emphasis: {
+                                            label: {
+                                                show: true,
+                                                fontSize: '18',
+                                                fontWeight: 'bold'
+                                            }
+                                        },
+                                        labelLine: {
+                                            show: false
+                                        },
+                                        data: [
+                                            {%  if barber_productivity%}
+                                                {% for review_name, review_value in reviews_info.items %}
+                                                    {
+                                                        value: {{review_value}},
+                                                        name: '{{review_name}}'
+                                                    },
+                                                {% endfor %}
+                                            {% else %}
+                                                {
+                                                    value: 0,
+                                                    name: 'Сегодня никто не оставил отзыв :('
+                                                },
+
+
+                                            {% endif %}
+                                        ]
+                                    }]
+                                });
+                            });
+                        </script>
+                    </div>
+
+                </div>
+                <!-- Website Traffic -->
+                <div class="card">
+
+                    <div class="card-body pb-0">
+                        <h5 class="card-title">Barber productivity <span>| {% if interim == "week" %}This week{% elif interim == "month"%}This month{% else %}Today{% endif %}</span></h5>
+
+                        <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
+
+                        <script>
+                            document.addEventListener("DOMContentLoaded", () => {
+                                echarts.init(document.querySelector("#trafficChart")).setOption({
+                                    tooltip: {
+                                        trigger: 'item'
+                                    },
+                                    legend: {
+                                        top: '5%',
+                                        left: 'center'
+                                    },
+                                    series: [{
+                                        name: "Barber's username",
+                                        type: 'pie',
+                                        radius: ['40%', '70%'],
+                                        avoidLabelOverlap: false,
+                                        label: {
+                                            show: false,
+                                            position: 'center'
+                                        },
+                                        emphasis: {
+                                            label: {
+                                                show: true,
+                                                fontSize: '18',
+                                                fontWeight: 'bold'
+                                            }
+                                        },
+                                        labelLine: {
+                                            show: false
+                                        },
+                                        data: [
+                                            {%  if barber_productivity%}
+                                                {% for barber_name, barber_value in barber_productivity.items %}
+                                                    {
+                                                        value: {{barber_value}},
+                                                        name: '{{barber_name}}'
+                                                    },
+                                                {% endfor %}
+                                            {% else %}
+                                                {
+                                                    value: 0,
+                                                    name: 'Сегодня никто не работал :('
+                                                },
+                                            {% endif %}
+                                        ]
+                                    }]
+                                });
+                            });
+                        </script>
+
+                    </div>
+                </div><!-- End Website Traffic -->
+
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Vendor JS Files -->
+    <script src="/static/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="/static/vendor/echarts/echarts.min.js"></script>
+
+{% endblock %}

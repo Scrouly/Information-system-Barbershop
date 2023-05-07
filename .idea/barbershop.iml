@@ -29,6 +29,7 @@
         <option value="$MODULE_DIR$/salon/templates" />
         <option value="$MODULE_DIR$/services/templates" />
         <option value="$MODULE_DIR$/reviews/templates" />
+        <option value="$MODULE_DIR$/statistica/templates" />
       </list>
     </option>
   </component>

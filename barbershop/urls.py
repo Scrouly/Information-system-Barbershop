@@ -25,7 +25,8 @@ urlpatterns = [
     path('barbershop/', include('salon.urls')),
     path('users/', include('users.urls', namespace='users')),
     path('services/', include('services.urls', namespace='services')),
-    path('reviews/', include('reviews.urls', namespace='reviews'))
+    path('reviews/', include('reviews.urls', namespace='reviews')),
+    path('stats/',include("statistica.urls",namespace='stats'))
 
 ]
 if settings.DEBUG:

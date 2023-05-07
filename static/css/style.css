@@ -32,7 +32,7 @@ h6 {
 # Main
 --------------------------------------------------------------*/
 #main {
-    margin-top: 60px;
+    margin-top: 20px;
     padding: 20px 30px;
     transition: all 0.3s;
 }
@@ -589,6 +589,10 @@ h6 {
 # Dashboard
 --------------------------------------------------------------*/
 /* Filter dropdown */
+.dashboard {
+    margin-top: 20px;
+}
+
 .dashboard .filter {
     position: absolute;
     right: 0px;
@@ -650,7 +654,7 @@ h6 {
 
 .dashboard .sales-card .card-icon {
     color: #4154f1;
-    background: #f6f6fe;
+    background: #eaeaff;
 }
 
 .dashboard .revenue-card .card-icon {
@@ -659,7 +663,12 @@ h6 {
 }
 
 .dashboard .customers-card .card-icon {
-    color: #ff771d;
+    color: #f67b32;
+    background: #ffecdf;
+}
+
+.dashboard .review-card .card-icon {
+    color: #ffbf11;
     background: #ffecdf;
 }
 
