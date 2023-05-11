@@ -4,18 +4,117 @@
     Home
 {% endblock %}
 {% block content %}
+    <section class="section barbershop">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-10">
+                    <div class="pagetitle">
+                        <h1>Our barbershops</h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">Barbershops</li>
+                            </ol>
+                        </nav>
+                        <h6>{{ interim }}</h6>
+                    </div><!-- End Page Title -->
+                </div>
+                <div class="col-lg-2">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="dropdown">
+                                <button class="btn btn-outline-dark dropdown-toggle" type="button"
+                                        data-toggle="dropdown">
+                                    Рейтинг
+                                    <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li class="text-center"><a
+                                            href="{% url 'index' %}?sorted=up{% if city_filter %}&city={{ city_filter }}{% endif %}">по
+                                        возрастанию</a></li>
+                                    <hr>
+                                    <li class="text-center"><a
+                                            href="{% url 'index' %}?sorted=down{% if city_filter %}&city={{ city_filter }}{% endif %}">по
+                                        убыванию</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="dropdown">
+                                <button class="btn btn-outline-dark dropdown-toggle" type="button"
+                                        data-toggle="dropdown">
+                                    Город
+                                    <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li class="text-center"><a href="
+                                            {% url 'index' %}{% if sorted_filter %}?sorted={{ sorted_filter }}{% endif %}">Все</a>
+                                    </li>
+                                    {% for barbershop_city in city %}
+                                        <hr>
+                                        <li class="text-center"><a
+                                                href="{% url 'index' %}?city={{ barbershop_city.name }}{% if sorted_filter %}&sorted={{ sorted_filter }}{% endif %}">{{ barbershop_city.name }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                {% if barbershops %}
 
-    {% if barbershops %}
-        <ul>
-            {% for barbershop in barbershops %}
-                <li>
-                    <a href="{% url 'detail' barbershop.pk %}"><img src="/media/{{ barbershop.main_photo }}" alt='{{ barbershop.name }}' width="80" height="80" /> {{ barbershop.name }}</a>
-                    <h>{{ barbershop.short_description }}</h>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No barbershops are available.</p>
-    {% endif %}
+                    {% for barbershop in barbershops %}
+                        <div class="col-xxl-12 col-xl-12">
+                            <div class="card mb-3">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        {#                                        width="80"#}
+                                        {#                                            height="80"#}
+                                        <img src="/media/{{ barbershop.main_photo }}"
+                                             alt='{{ barbershop.name }}' class="img-fluid rounded-start barbershop-img">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><a
+                                                    href="{% url 'detail' barbershop.pk %}">{{ barbershop.name }}</a>
+                                            </h5>
 
+
+                                            <div class="rating-star">
+                                                        <span>
+                                                                <i class="fa fa-star{% if barbershop.rating < 0.5 %}-o{% elif barbershop.rating >= 0.5 and barbershop.rating < 1 %}-half-o {% endif %}"
+                                                                   aria-hidden="true"></i>
+                                                                <i class="fa fa-star{% if barbershop.rating < 1.5 %}-o{% elif barbershop.rating >= 1.5 and barbershop.rating < 2 %}-half-o {% endif %}"
+                                                                   aria-hidden="true"></i>
+                                                                <i class="fa fa-star{% if barbershop.rating < 2.5 %}-o{% elif barbershop.rating >= 2.5 and barbershop.rating < 3 %}-half-o {% endif %}"
+                                                                   aria-hidden="true"></i>
+                                                                <i class="fa fa-star{% if barbershop.rating < 3.5 %}-o{% elif barbershop.rating >= 3.5 and barbershop.rating < 4 %}-half-o {% endif %}"
+                                                                   aria-hidden="true"></i>
+                                                                <i class="fa fa-star{% if barbershop.rating < 4.5 %}-o{% elif barbershop.rating >= 4.5 and barbershop.rating < 5 %}-half-o {% endif %}"
+                                                                   aria-hidden="true"></i>
+                                                            </span>
+                                            </div>
+
+                                            <p class="card-text">{{ barbershop.short_description }}</p>
+                                            <p class="card-text position-absolute bottom-0"><small
+                                                    class="text-body-secondary">{{ barbershop.city.name }}, {{ barbershop.address }}</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        </div>
+                    {% endfor %}
+
+                {% else %}
+                    <p>No barbershops are available.</p>
+                {% endif %}
+        </div>
+        </div>
+    </section>
 {% endblock %}

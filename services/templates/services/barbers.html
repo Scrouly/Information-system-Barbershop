@@ -13,7 +13,7 @@
                     <div class="col-md-8 mx-auto row-gap-3 shadow-sm p-3 mb-2 bg-body-tertiary rounded">
                         <a href="
 
-                                {% url 'services:booking' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">{{ barber }}</a>
+                                {% url 'services:booking' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">{{ barber.user.first_name }} {{ barber.user.username }}</a>
                     </div>
                 </div>
             {% endfor %}

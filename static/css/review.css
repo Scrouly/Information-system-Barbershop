@@ -3,6 +3,7 @@
 }
 
 .rate{
+  margin-top: 15px;
   display: inline-block;;
   border: 0;
 }
@@ -14,7 +15,7 @@
 /* Showing the stars */
 .rate > label:before{
   display: inline-block;
-  font-size: 1.1rem;
+  font-size: 1.9rem;
   font-family: FontAwesome;
   content: "\f005";
   margin:0;

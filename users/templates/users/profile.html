@@ -40,6 +40,7 @@
                                  alt="My Image" class="rounded-circle">
                             <h2>{{ form.first_name.value }} {{ form.last_name.value }}</h2>
                             <h3>Клиент</h3>
+
                         </div>
                     </div>
                     {#                Мини инфа о записях#}
@@ -273,7 +274,7 @@
 
                                                 <div class="col-lg-5 col-md-5">
                                                     <div class="row">Barbershop: {{ appointment.barbershop }}</div>
-                                                    <div class="row">Barber: {{ appointment.barber }} </div>
+                                                    <div class="row">Barber: {{ appointment.barber.user.first_name}} {{ appointment.barber.user.username }} </div>
                                                     <div class="row">Price: {{ appointment.service.price }}
                                                         BYN
                                                     </div>

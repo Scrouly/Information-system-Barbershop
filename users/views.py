@@ -8,6 +8,7 @@ from django.views.generic import CreateView
 from reviews.models import Review
 from services.models import Booking
 from users.forms import CustomUserCreationForm, CustomUserAuthentificationForm, CustomUserProfileForm
+from users.models import CustomUser
 
 
 # Create your views here.

@@ -584,6 +584,70 @@ h6 {
     background-color: #f6f9ff;
 }
 
+/*--------------------------------------------------------------
+# Barbershop
+--------------------------------------------------------------*/
+.barbershop {
+    margin-top: 20px;
+}
+
+.barbershop .barbershop-img {
+    width: 400px;
+    height: 200px;
+}
+
+.barbershop .card-text.position-absolute.bottom-0 {
+    margin-bottom: 15px;
+}
+
+.barbershop .card-title {
+    padding: 20px 0 0 0;
+
+}
+
+.barbershop .dropdown {
+    margin-bottom: 15px;
+}
+
+/*--------------------------------------------------------------
+# Review
+--------------------------------------------------------------*/
+.review {
+    margin-top: 20px;
+}
+
+.review .barber-card img {
+    width: 125px;
+    height: 125px;
+}
+.review .barber-card h5 {
+    font-size: 30px;
+    font-weight: 700;
+    color: #2c384e;
+    margin: 0 0 20px 0;
+}
+
+.review .barber-card h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2c384e;
+    margin: 15px 0 0 0;
+}
+
+.review .barber-card h3 {
+    font-size: 18px;
+}
+
+.review .barber-card h4 {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.review .form-control{
+    margin-top: 20px;
+}
+
+
 
 /*--------------------------------------------------------------
 # Dashboard
@@ -835,8 +899,8 @@ h6 {
 # Profie Page
 --------------------------------------------------------------*/
 .profile .profile-card img {
-    max-width: 120px;
-    max-height: 120px;
+    width: 100px;
+    height: 100px;
 
 
 }
@@ -851,7 +915,6 @@ h6 {
 .profile .profile-card h3 {
     font-size: 18px;
 }
-
 
 
 .profile .profile-card .social-links a {

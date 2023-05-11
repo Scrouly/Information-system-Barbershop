@@ -43,7 +43,7 @@
                 </div>
                 <div class="col-md-auto">
                     {% if barber %}
-                        <p>{{ barber }}</p>
+                        <p>{{ barber.user.first_name }} {{ barber.user.username }}</p>
                     {% endif %}
                 </div>
             </div>

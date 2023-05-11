@@ -49,7 +49,7 @@ def review(request, pk):
             form = ReviewForm(request.POST, instance=reviews)
             form.save()
             messages.success(request, 'Thank you! Your review has been updated.')
-            return redirect(url)
+            return redirect('users:profile')
         except Review.DoesNotExist:
             form = ReviewForm(request.POST)
             if form.is_valid():
@@ -62,7 +62,7 @@ def review(request, pk):
                 data.user_id = request.user.id
                 data.save()
                 messages.success(request, 'Thank you! Your review has been submitted.')
-                return redirect(url)
+                return redirect("users:profile")
     else:
         try:
             # ---get_object_or_404()---
@@ -72,7 +72,7 @@ def review(request, pk):
             reviews = None
             form = ReviewForm()
             # -------------------------
-    content = {"user": request.user, "form": form, 'review': reviews}
+    content = {"user": request.user, "form": form, 'review': reviews, 'booking': booking}
     return render(request, 'reviews/review.html', content)
 
 
@@ -83,7 +83,5 @@ def delete_review(request, pk):
         messages.success(request, 'Your review has been deleted.')
         return redirect('users:profile')
     return render(request, 'reviews/delete_review.html', {'review': get_review})
-
-
 
 # Create your views here.

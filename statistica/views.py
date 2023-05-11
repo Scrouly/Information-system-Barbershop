@@ -222,7 +222,7 @@ def stats_info(request, pk, barber_pk=None):
             previous_appointments = Booking.objects.filter(appointment_date=(today - datetime.timedelta(days=1)),
                                                            barbershop_id=pk)
 
-    get_barbers = [app.barber.username for app in current_appointments]
+    get_barbers = [app.barber.user.username for app in current_appointments]
     barber_productivity = dict_for_pie(get_barbers)
 
     current_reviews = [rating.rating for rating in Review.objects.filter(appointment__in=current_appointments)]
@@ -233,7 +233,7 @@ def stats_info(request, pk, barber_pk=None):
     print('---------------')
     print(barber_productivity)
 
-    print([app.barber.username for app in current_appointments])
+    print([app.barber.user.username for app in current_appointments])
 
     time = WorkingTime.objects.all()
 
@@ -249,6 +249,14 @@ def stats_info(request, pk, barber_pk=None):
     appointments_difference = difference(len(current_appointments), len(previous_appointments))
     customers_difference = difference(current_customers, previous_customers)
     revenue_difference = difference(current_revenue, previous_revenue)
+
+    max_load_hours = [times.hour.strftime("%H:%M") for times in time]
+    print(f"current_appointments---{current_appointments}")
+    print(f'max_load_hours---{max_load_hours}')
+    max_load_per_interim = graph(
+        current_appointments,
+        max_load_hours)[0]
+    print(f"current_appointments_per_interim---{max_load_per_interim}")
 
     if 'week' in full_path or 'month' in full_path:
         time = this_week_all_dates
@@ -280,7 +288,8 @@ def stats_info(request, pk, barber_pk=None):
                'previous_customers_per_interim': previous_customers_per_interim,
                'barber_productivity': barber_productivity,
                'reviews_info': reviews_info, 'current_reviews': len(current_reviews),
-               'current_average_rating': current_average_rating
+               'current_average_rating': current_average_rating, 'max_load_hours': max_load_hours,
+               "max_load_per_interim": max_load_per_interim
                }
     context.update(interim)
     return render(request, "statistica/stats.html", context)

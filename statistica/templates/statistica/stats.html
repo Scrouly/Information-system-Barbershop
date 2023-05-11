@@ -8,17 +8,20 @@
 {% block content %}
     <section class="section dashboard">
         <div class="pagetitle">
-            <h1>Statistic of {% if barbershop %}{{ barbershop.name }}{% endif %}{% if barber %} - {{ barber.username }}{% endif %}</h1>
+            <h1>{% if interim == "week" %}Weekly{% elif interim == "month" %}Monthly{% else %}Daily{% endif %} statistic
+                of {% if barbershop %}{{ barbershop.name }}{% endif %}{% if barber %} -
+                    {{ barber.user.username }}{% endif %}</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{% url 'stats:day_stats_info' barbershop.pk %}">Today</a>
                     </li>
-                    <li class="breadcrumb-item"><a href="{% url 'stats:week_stats_info' barbershop.pk %}">This week</a></li>
-                    <li class="breadcrumb-item "><a href="{% url 'stats:month_stats_info' barbershop.pk %}">This month</a>
+                    <li class="breadcrumb-item"><a href="{% url 'stats:week_stats_info' barbershop.pk %}">This week</a>
+                    </li>
+                    <li class="breadcrumb-item "><a href="{% url 'stats:month_stats_info' barbershop.pk %}">This
+                        month</a>
                     </li>
                 </ol>
             </nav>
-        <h6>{{ interim }}</h6>
         </div><!-- End Page Title -->
         <div class="row">
 
@@ -31,7 +34,8 @@
                         <div class="card info-card sales-card">
 
                             <div class="card-body">
-                                <h5 class="card-title">Haircuts <span>| {% if interim == "week" %}This week{% elif interim == "month"%}This month{% else %}Today{% endif %}</span></h5>
+                                <h5 class="card-title">Haircuts <span>| {% if interim == "week" %}This
+                                    week{% elif interim == "month" %}This month{% else %}Today{% endif %}</span></h5>
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center ">
@@ -55,14 +59,16 @@
                         <div class="card info-card revenue-card">
 
                             <div class="card-body">
-                                <h5 class="card-title">Revenue <span>| {% if interim == "week" %}This week{% elif interim == "month"%}This month{% else %}Today{% endif %}</span></h5>
+                                <h5 class="card-title">Revenue <span>| {% if interim == "week" %}This
+                                    week{% elif interim == "month" %}This month{% else %}Today{% endif %}</span></h5>
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                         <i class="bi bi-cash-stack"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6 {% if current_revenue > 999 %}style="font-size: 20px;"{% endif %}>{{ current_revenue }} BYN</h6>
+                                        <h6 {% if current_revenue > 999 %}style="font-size: 20px;"{% endif %}>{{ current_revenue }}
+                                            BYN</h6>
                                         <span class="text-{% if revenue_difference < 0 %}danger{% else %}success{% endif %} small pt-1 fw-bold">{{ revenue_difference }}%</span>
                                         <span
                                                 class="text-muted small pt-2 ps-1">{% if revenue_difference < 0 %}
@@ -80,7 +86,8 @@
                         <div class="card info-card customers-card">
 
                             <div class="card-body">
-                                <h5 class="card-title">Customers <span>| {% if interim == "week" %}This week{% elif interim == "month"%}This month{% else %}Today{% endif %}</span></h5>
+                                <h5 class="card-title">Customers <span>| {% if interim == "week" %}This
+                                    week{% elif interim == "month" %}This month{% else %}Today{% endif %}</span></h5>
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -106,19 +113,24 @@
 
 
                             <div class="card-body">
-                                <h5 class="card-title">Haircuts <span>/ {% if interim == "week" %}This week - Previous week{% elif interim == "month"%}This month - Previous month{% else %}Today - Yesterday{% endif %}</span></h5>
+                                <h5 class="card-title">Haircuts <span>/ {% if interim == "week" %}This week - Previous
+                                    week{% elif interim == "month" %}This month - Previous month{% else %}Today -
+                                    Yesterday{% endif %}</span></h5>
 
                                 <!-- Line Chart -->
-                                <div id="reportsChart"></div>
+                                <div id="reportsChartHaircuts"></div>
 
                                 <script>
                                     document.addEventListener("DOMContentLoaded", () => {
-                                        new ApexCharts(document.querySelector("#reportsChart"), {
+                                        new ApexCharts(document.querySelector("#reportsChartHaircuts"), {
                                             series: [{
-                                                name: '{% if interim == "week" %}this week{% elif interim == "month"%}this month{% else %}Today{% endif %} haircuts',
+                                                name: '{% if interim == "week" %}this week{% elif interim == "month"%}'+
+                                                    ' this month{% else %}Today{% endif %} haircuts',
                                                 data: {{current_appointments_per_interim|safe}},
                                             }, {
-                                                name: '{% if interim == "week" %}7 days ago{% elif interim == "month"%}30 days ago{% else %}Yesterday{% endif %} haircuts',
+                                                name: '{% if interim == "week" %}7 days ago{% elif interim == "month"%}'
+                                                    +
+                                                    '30 days ago{% else %}Yesterday{% endif %} haircuts',
                                                 data: {{previous_appointments_per_interim|safe}},
                                             },],
                                             chart: {
@@ -168,19 +180,25 @@
 
 
                                 <div class="card-body pb-0">
-                                    <h5 class="card-title">Revenue <span>/ {% if interim == "week" %}This week - Previous week{% elif interim == "month"%}This month - Previous month{% else %}Today - Yesterday{% endif %}</span></h5>
+                                    <h5 class="card-title">Revenue <span>/ {% if interim == "week" %}This week -
+                                        Previous week{% elif interim == "month" %}This month - Previous month{% else %}
+                                        Today - Yesterday{% endif %}</span></h5>
 
                                     <!-- Line Chart -->
-                                    <div id="reportsChart1"></div>
+                                    <div id="reportsChartRevenue"></div>
 
                                     <script>
                                         document.addEventListener("DOMContentLoaded", () => {
-                                            new ApexCharts(document.querySelector("#reportsChart1"), {
+                                            new ApexCharts(document.querySelector("#reportsChartRevenue"), {
                                                 series: [{
-                                                    name: '{% if interim == "week" %}this week{% elif interim == "month"%}this month{% else %}Today{% endif %} revenue',
+                                                    name: '{% if interim == "week" %}'+
+                                                        'this week{% elif interim == "month"%}this month{% else %}'+
+                                                        'Today{% endif %} revenue',
                                                     data: {{current_revenue_per_interim|safe}},
                                                 }, {
-                                                    name: '{% if interim == "week" %}7 days ago{% elif interim == "month"%}30 days ago{% else %}Yesterday{% endif %} revenue',
+                                                    name: '{% if interim == "week" %}'+
+                                                        '7 days ago{% elif interim == "month"%}30 days ago{% else %}'+
+                                                        'Yesterday{% endif %} revenue',
                                                     data: {{previous_revenue_per_interim|safe}},
                                                 },],
                                                 chart: {
@@ -225,24 +243,29 @@
                             </div>
                         </div><!-- End Reports -->
                     </div><!-- End Reports -->
+
                     <div class="col-12">
                         <div class="card">
 
 
                             <div class="card-body pb-0">
-                                <h5 class="card-title">Customers <span>/ {% if interim == "week" %}This week - Previous week{% elif interim == "month"%}This month - Previous month{% else %}Today - Yesterday{% endif %}</span></h5>
+                                <h5 class="card-title">Customers <span>/ {% if interim == "week" %}This week - Previous
+                                    week{% elif interim == "month" %}This month - Previous month{% else %}Today -
+                                    Yesterday{% endif %}</span></h5>
 
                                 <!-- Line Chart -->
-                                <div id="reportsChart2"></div>
+                                <div id="reportsChartCustomers"></div>
 
                                 <script>
                                     document.addEventListener("DOMContentLoaded", () => {
-                                        new ApexCharts(document.querySelector("#reportsChart2"), {
+                                        new ApexCharts(document.querySelector("#reportsChartCustomers"), {
                                             series: [{
-                                                name: '{% if interim == "week" %}this week{% elif interim == "month"%}this month{% else %}Today{% endif %} customers',
+                                                name: '{% if interim == "week" %}this week{% elif interim == "month"%}'+
+                                                    'this month{% else %}Today{% endif %} customers',
                                                 data: {{current_customers_per_interim|safe}},
                                             }, {
-                                                name: '{% if interim == "week" %}7 days ago{% elif interim == "month"%}30 days ago{% else %}Yesterday{% endif %} customers',
+                                                name: '{% if interim == "week" %}7 days ago{% elif interim == "month"%}'
+                                                    +'30 days ago{% else %}Yesterday{% endif %} customers',
                                                 data: {{previous_customers_per_interim|safe}},
                                             },],
                                             chart: {
@@ -298,7 +321,8 @@
                     <div class="card review-card info-card">
 
                         <div class="card-body">
-                            <h5 class="card-title">Stars <span>| {% if interim == "week" %}This week{% elif interim == "month"%}This month{% else %}Today{% endif %}</span></h5>
+                            <h5 class="card-title">Stars <span>| {% if interim == "week" %}This
+                                week{% elif interim == "month" %}This month{% else %}Today{% endif %}</span></h5>
 
                             <div class="d-flex align-items-center">
                                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -320,13 +344,14 @@
                 <div class="card">
 
                     <div class="card-body pb-0">
-                        <h5 class="card-title">Reviews<span>| {% if interim == "week" %}This week{% elif interim == "month"%}This month{% else %}Today{% endif %}</span></h5>
+                        <h5 class="card-title">Reviews<span>| {% if interim == "week" %}This
+                            week{% elif interim == "month" %}This month{% else %}Today{% endif %}</span></h5>
 
-                        <div id="trafficChart1" style="min-height: 400px;" class="echart"></div>
+                        <div id="ReviewsChart" style="min-height: 400px;" class="echart"></div>
 
                         <script>
                             document.addEventListener("DOMContentLoaded", () => {
-                                echarts.init(document.querySelector("#trafficChart1")).setOption({
+                                echarts.init(document.querySelector("#ReviewsChart")).setOption({
                                     tooltip: {
                                         trigger: 'item'
                                     },
@@ -354,7 +379,7 @@
                                             show: false
                                         },
                                         data: [
-                                            {%  if barber_productivity%}
+                                            {%  if reviews_info%}
                                                 {% for review_name, review_value in reviews_info.items %}
                                                     {
                                                         value: {{review_value}},
@@ -381,13 +406,14 @@
                 <div class="card">
 
                     <div class="card-body pb-0">
-                        <h5 class="card-title">Barber productivity <span>| {% if interim == "week" %}This week{% elif interim == "month"%}This month{% else %}Today{% endif %}</span></h5>
+                        <h5 class="card-title">Barber productivity <span>| {% if interim == "week" %}This
+                            week{% elif interim == "month" %}This month{% else %}Today{% endif %}</span></h5>
 
-                        <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
+                        <div id="BarberProductivityChart" style="min-height: 400px;" class="echart"></div>
 
                         <script>
                             document.addEventListener("DOMContentLoaded", () => {
-                                echarts.init(document.querySelector("#trafficChart")).setOption({
+                                echarts.init(document.querySelector("#BarberProductivityChart")).setOption({
                                     tooltip: {
                                         trigger: 'item'
                                     },
@@ -439,7 +465,64 @@
 
 
             </div>
+            {% if interim == "week" or interim == "month" %}
+                <div class="col-lg-12">
+                    <div class="col-xxl-12 col-md-12">
+                        <div class="card">
 
+                            <div class="card-body pb-0">
+                                <h5 class="card-title">Maximum load hours <span>/ {% if interim == "week" %}This
+                                    week{% elif interim == "month" %}This month{% else %}Today{% endif %}</span></h5>
+                                <!-- Line Chart -->
+                                <div id="reportsChartMaxLoad"></div>
+
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", () => {
+                                        new ApexCharts(document.querySelector("#reportsChartMaxLoad"), {
+                                            series: [{
+                                                name: "Customers per hour",
+                                                data: {{max_load_per_interim|safe}}
+                                            }],
+                                            chart: {
+                                                height: 350,
+                                                type: 'area',
+                                                toolbar: {
+                                                    show: false
+                                                },
+                                            },
+                                            plotOptions: {
+                                                bar: {
+                                                    columnWidth: '45%',
+                                                    distributed: true,
+                                                }
+                                            },
+                                            dataLabels: {
+                                                enabled: false
+                                            },
+                                            legend: {
+                                                show: false
+                                            },
+                                            colors: ['#9641f1',],
+                                            xaxis: {
+                                                categories: {{ max_load_hours|safe }},
+                                                labels: {
+                                                    style: {
+                                                        fontSize: '12px'
+                                                    }
+                                                }
+                                            },
+
+                                        }).render();
+                                    });
+                                </script>
+                                <!-- End Line Chart -->
+
+                            </div>
+
+                        </div>
+                    </div><!-- End Reports -->
+                </div>
+            {% endif %}
         </div>
     </section>
 
