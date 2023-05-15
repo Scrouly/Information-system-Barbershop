@@ -6,25 +6,46 @@
     Home
 {% endblock %}
 {% block content %}
-    <div class="container shadow p-3 mb-5 bg-body-tertiary rounded">
-        <div class="row justify-content-md-center">
-            <br>
-            <slot>You have successfully signed up for barber services</slot>
-            {{ barbershop.name }}
-            <br>
+    <section class="section review">
+        <div class="col-md-8 mx-auto bg-body-tertiary rounded">
+            <section class="section booking">
 
-            <div class="row shadow-sm p-3 mb-5 bg-body-tertiary rounded">
-                <div class="col">
-                    <p>{{ booking.barbershop }}</p>
-                    <p>{{ booking.barber }}</p>
-                    <p>{{ booking.service }}</p>
-                    <p>{{ booking.appointment_date}} {{booking.appointment_time.hour|time:'H:i'  }}</p>
+                <div class="pagetitle">
+                    <h1>
+                        <slot>Barbershop:</slot>
+                        {{ booking.barbershop.name }}</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Booking</li>
+                        </ol>
+                    </nav>
+                </div><!-- End Page Title -->
+                <div class="row">
+                    <div class="col-lg-12">
+
+
+                        <div class="card">
+                            <div class="card-body barber-card pt-4 d-flex flex-column ">
+                                <h2 style="margin: 0 0 0 0">Вы успешно записаны:</h2>
+                                <ul>
+                                    <li><h3 style="margin-top: 15px">
+                                        Barbershop: {{ booking.barber.barbershop.name }}</h3></li>
+                                    <li><h3>Barber: {{ booking.barber.user.first_name }}</h3></li>
+                                    <li><h3>Service: {{ booking.service.service.name }} - {{ booking.service.price }} BYN</h3></li>
+                                    <li><h3>Time: {{ booking.appointment_date }}
+                                        in {{ booking.appointment_time.hour|time:'H:i' }}</h3></li>
+                                </ul>
+
+                                <div>
+                                    <a href="{% url "users:profile" %} " class="btn btn-outline-success">Домой</a>
+                                    <a href="{% url "index" %} " class="btn btn-outline-success">На главную</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-            </div>
-
-
+            </section>
         </div>
-    </div>
-
+    </section>
 {% endblock %}

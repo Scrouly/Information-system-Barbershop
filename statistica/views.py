@@ -6,6 +6,7 @@ from salon.models import Barbershop
 from services.models import Booking, WorkingTime
 from users.models import Barber
 from .utils import revenue_and_customers, difference, graph, dict_for_pie, back_dates, daily_graph
+from django.contrib.auth.decorators import permission_required
 
 
 # def stats_info(request, pk, barber_pk=None):
@@ -163,12 +164,13 @@ from .utils import revenue_and_customers, difference, graph, dict_for_pie, back_
 #                }
 #     return render(request, "statistica/stats.html", context)
 # Create your views here.
-
+@permission_required('users.barber.can_add_barber')
 def stats_info(request, pk, barber_pk=None):
     print('-------------stats_info_in-------------')
 
     today = datetime.date.today()
     barbershop = get_object_or_404(Barbershop, pk=pk)
+    all_barbers = Barber.objects.filter(barbershop=barbershop)
     barber = Barber.objects.filter(pk=barber_pk, barbershop_id=pk).first()
     full_path = request.get_full_path()
     interim = {'interim': "today"}
@@ -289,7 +291,7 @@ def stats_info(request, pk, barber_pk=None):
                'barber_productivity': barber_productivity,
                'reviews_info': reviews_info, 'current_reviews': len(current_reviews),
                'current_average_rating': current_average_rating, 'max_load_hours': max_load_hours,
-               "max_load_per_interim": max_load_per_interim
+               "max_load_per_interim": max_load_per_interim, 'all_barbers': all_barbers
                }
     context.update(interim)
     return render(request, "statistica/stats.html", context)

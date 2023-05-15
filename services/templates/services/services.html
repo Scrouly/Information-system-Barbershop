@@ -6,19 +6,47 @@
     Home
 {% endblock %}
 {% block content %}
-    <div class="container shadow p-3 mb-5 bg-body-tertiary rounded">
-        <div class="row justify-content-md-center ">
+    <div class="col-md-8 mx-auto bg-body-tertiary rounded">
+        <section class="section booking">
 
-            {% for service in services %}
-                <br>
-                <div class="row">
-                    <div class="col-md-8 mx-auto row-gap-3 shadow-sm p-3 mb-2 bg-body-tertiary rounded">
-                        <a href="
+            <div class="pagetitle">
+                <h1>Services</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item" onclick="window.history.back()">
+                            Back
+                        </li>
+                        <li class="breadcrumb-item">Booking</li>
+                    </ol>
+                </nav>
+            </div><!-- End Page Title -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-4">Название услуги</div>
+                        <div class="col-lg-4">Квалификация барбера</div>
+                        <div class="col-lg-4">Цена</div>
+                        {% for service in services %}
+                            <div class="card info-card" style="margin-top: 10px; margin-bottom: 0;">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="col-lg-4"><a href="
 
-                                {% url 'services:booking' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">{{ service }}</a>
+
+
+
+                                                {% url 'services:booking' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">{{ service.service.name }}</a>
+                                        </div>
+                                        <div class="col-lg-4">{{ service.qualification.name }}</div>
+                                        <div class="col-lg-4">{{ service.price }} BYN</div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
                     </div>
                 </div>
-            {% endfor %}
-        </div>
+            </div>
+        </section>
     </div>
 {% endblock %}

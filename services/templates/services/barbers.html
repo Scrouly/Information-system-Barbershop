@@ -6,17 +6,79 @@
     Home
 {% endblock %}
 {% block content %}
-    <div class="container shadow p-3 mb-5 bg-body-tertiary rounded">
-        <div class="row justify-content-md-center ">
-            {% for barber in barbers %}
-                <div class="row">
-                    <div class="col-md-8 mx-auto row-gap-3 shadow-sm p-3 mb-2 bg-body-tertiary rounded">
-                        <a href="
+    <div class="col-md-8 mx-auto bg-body-tertiary rounded">
+        <section class="section booking">
 
-                                {% url 'services:booking' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">{{ barber.user.first_name }} {{ barber.user.username }}</a>
-                    </div>
+            <div class="pagetitle">
+                <h1>Barbers</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item" onclick="window.history.back()">
+                            Back
+                        </li>
+                        <li class="breadcrumb-item">Booking</li>
+                    </ol>
+                </nav>
+            </div><!-- End Page Title -->
+            <div class="row">
+                <div class="col-lg-12">
+
+                    {% for barber in barbers %}
+                        <div class="card info-card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center ">
+                                        <img src="{{ barber.user.profile_img.url }}"
+                                             alt="barber image" class="rounded-circle card-icon">
+                                    </div>
+                                    <div class="col-xl-12">
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <div class="ps-3">
+
+
+                                                    <h3 class="text-muted small pt-1 ">{{ barber.qualification.name }}</h3>
+                                                    <a href="
+
+
+                                                            {% url 'services:booking' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">
+                                                        <h6>{{ barber.user.first_name }}</h6></a>
+                                                    <div class="rating-star">
+                                            <span>
+                                                <i class="fa fa-star{% if barber.rating == 0.5 %}-half-o{% elif barber.rating < 1 %}-o {% endif %}"
+                                                   aria-hidden="true"></i>
+                                                <i class="fa fa-star{% if barber.rating == 1.5 %}-half-o{% elif barber.rating < 2 %}-o {% endif %}"
+                                                   aria-hidden="true"></i>
+                                                <i class="fa fa-star{% if barber.rating == 2.5 %}-half-o{% elif barber.rating < 3 %}-o {% endif %}"
+                                                   aria-hidden="true"></i>
+                                                <i class="fa fa-star{% if barber.rating == 3.5 %}-half-o{% elif barber.rating < 4 %}-o {% endif %}"
+                                                   aria-hidden="true"></i>
+                                                <i class="fa fa-star{% if barber.rating == 4.5 %}-half-o{% elif barber.rating < 5 %}-o {% endif %}"
+                                                   aria-hidden="true"></i>
+                                            </span>
+                                                        <span
+                                                                class="date text-muted float-md-right"> {{ barber.updated_time }} </span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="card-icon rounded-circle d-flex align-items-center "
+                                                     style="width: auto; height: auto; font-size: 25px">
+                                                    <a href="
+                                                        {% url 'reviews:barber_reviews' barber.pk %}">
+                                                        <i class="bi bi-question-circle"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
                 </div>
-            {% endfor %}
-        </div>
+            </div>
+        </section>
     </div>
 {% endblock %}

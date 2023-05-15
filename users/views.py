@@ -1,5 +1,5 @@
 from django.contrib import auth, messages
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
@@ -73,6 +73,7 @@ def register(request):
     return render(request, 'users/signup.html', context)
 
 
+@login_required()
 def profile(request):
     get_appointments = Booking.objects.filter(customer=request.user)
     [appointment.save() for appointment in get_appointments]
@@ -99,6 +100,7 @@ def profile(request):
     return render(request, 'users/profile.html', context)
 
 
+@login_required()
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(reverse('index'))

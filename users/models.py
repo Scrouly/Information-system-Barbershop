@@ -20,7 +20,8 @@ class Barber(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)
     qualification = models.ForeignKey(Qualifications, on_delete=models.CASCADE, blank=True, null=True)
     barbershop = models.ForeignKey(Barbershop, on_delete=models.CASCADE, blank=True, null=True)
+    rating = models.FloatField(default=0)
 
     def __str__(self):
-        return f"{self.barbershop} - {self.user.username} {self.user.first_name}  "
+        return f"{self.user.first_name} - {self.user.username}"
 # Create your models here.

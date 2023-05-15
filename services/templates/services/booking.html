@@ -6,123 +6,184 @@
     Home
 {% endblock %}
 {% block content %}
-    <div class="container shadow p-3 mb-5 bg-body-tertiary rounded">
-        <div class="row justify-content-md-center">
-            <br>
-            <slot>Barbershop:</slot>
-            {{ barbershop.name }}
-            <br>
+    <div class="col-md-8 mx-auto bg-body-tertiary rounded">
+        <section class="section booking">
 
-            <div class="row shadow-sm p-3 mb-5 bg-body-tertiary rounded">
-                <div class="col">
-                    <a href="
+            <div class="pagetitle">
+                <h1>
+                    <slot>Barbershop:</slot>
+                    {{ barbershop.name }}</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item" onclick="window.history.back()">
+                            Back
+                        </li>
+                        <li class="breadcrumb-item">Booking</li>
+                    </ol>
+                </nav>
+            </div><!-- End Page Title -->
+            <div class="row">
+                <div class="col-lg-12">
 
+                    <div class="row ">
 
-
-
-
-
-
-
-                            {% url 'services:barbers' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">Barbers</a>
-                    {% if service %}
-                        <a href="
-
-
-
-
-
+                        <div class="row shadow-sm p-3 mb-2 bg-body-tertiary rounded">
+                            <div class="col">
+                                <a href="
 
 
 
-                                {% url 'services:barbers' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">
-                            <slot>All Barbers</slot>
-                        </a>
 
-                    {% endif %}
-                </div>
-                <div class="col-md-auto">
-                    {% if barber %}
-                        <p>{{ barber.user.first_name }} {{ barber.user.username }}</p>
-                    {% endif %}
+
+                                        {% url 'services:barbers' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">Barbers</a>
+                            </div>
+                            <div class="col-md-auto">
+                                <div class="row">
+
+                                    {% if barber %}
+                                        <div class="col-lg-10">
+                                            <div class="d-flex align-items-center">
+                                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center ">
+                                                    <img src="{{ barber.user.profile_img.url }}"
+                                                         alt="barber image" class="rounded-circle card-icon "
+                                                         style="width: 40px; height: 40px">
+                                                </div>
+                                                <div class="ps-1">
+                                                    <h3 class="text-muted small"
+                                                        style="margin-top: 5px">{{ barber.qualification.name }}</h3>
+                                                    <h6>{{ barber.user.first_name }}</h6>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-2">
+                                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center "
+                                                 style="width: auto; font-size: 25px">
+                                                <a href="
+
+
+
+
+
+
+
+
+
+                                                        {% url 'services:booking' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">
+                                                    <i class="bi bi-x"></i></a>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row shadow-sm p-3 mb-2 bg-body-tertiary rounded">
+                            <div class="col">
+                                <a href="
+
+
+
+                                        {% url 'services:services' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">Services</a>
+
+                            </div>
+                            <div class="col-md-auto">
+                                <div class="row">
+                                    {% if service %}
+                                        <div class="col-lg-10">
+                                            <div class="d-flex align-items-center">
+                                                <div class="ps-1">
+                                                    <h6>{{ service.service.name }}</h6>
+                                                    <h6>{{ service.price }} BYN</h6>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-2">
+                                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center "
+                                                 style="width: auto; font-size: 25px">
+                                                <a href="
+
+
+
+
+
+                                                        {% url 'services:booking' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">
+                                                    <i class="bi bi-x"></i></a>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row shadow-sm p-3 mb-3 bg-body-tertiary rounded">
+                            <div class="col">
+                                <a href="
+
+
+
+                                        {% url 'services:appointment' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">Appointment</a>
+                            </div>
+                            <div class="col-md-auto">
+                                <div class="row">
+                                    {% if appointment %}
+                                        <div class="col-lg-10">
+                                            <div class="d-flex align-items-center">
+                                                <div class="ps-1">
+                                                    <h6 style="margin-top: 5px">{{ appointment }}</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-2">
+                                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center "
+                                                 style="width: auto; height: auto; font-size: 25px">
+                                                <a href="
+
+                                                        {% url 'services:booking' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}">
+                                                    <i class="bi bi-x"></i></a>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            {% if barbershop and barber and service and appointment %}
+                                {#                    <a class="btn btn-outline-success" href="{% url 'services:success' %}" >Enroll</a>#}
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <div hidden="hidden">
+                                        {{ form }}
+                                    </div>
+                                    <button type="submit" value="Submit" class="btn btn-outline-success">Enroll
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+
+                        {#            <form method="POST" action="{% url 'services:booking' %}">{% csrf_token %}#}
+                        {#                    <input type="hidden" name="order_id" value="{{ order_id }}">#}
+                        {#                    <input type="hidden" name="email" value="{{ email }}">#}
+                        {#                    <input type="hidden" name="service" value="{{ service }}">#}
+                        {#                    <input type="hidden" name="stylist" value="{{ stylist }}">#}
+                        {#                    <input type="hidden" name="date" value="{{ date }}">#}
+                        {#                    <input type="hidden" name="time" value="{{ time }}">#}
+                        {#                    <input type="hidden" name="amount" value="{{ amount }}">#}
+                        {#                    <input type="hidden" name="name" value="{{ name }}">#}
+                        {#                    <button type="submit">gg</button>#}
+                        {#            </form>#}
+
+                    </div>
                 </div>
             </div>
 
-
-            <div class="row shadow-sm p-3 mb-5 bg-body-tertiary rounded">
-                <div class="col">
-                    <a href="
-
-
-
-
-
-
-
-                            {% url 'services:services' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">Services</a>
-                    {% if barber %}
-                        <a href="
-
-
-
-
-
-
-
-                                {% url 'services:services' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">All
-                            Services</a>
-                    {% endif %}
-                </div>
-                <div class="col-md-auto">
-                    {% if service %}
-                        <p>{{ service }}</p>
-                    {% endif %}
-                </div>
-            </div>
-
-            <div class="row shadow-sm p-3 mb-5 bg-body-tertiary rounded">
-                <div class="col">
-                    <a href="
-
-
-
-
-
-
-
-                            {% url 'services:appointment' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ appointment }}{% endif %}">Appointment</a>
-                </div>
-                <div class="col-md-auto">
-                    {% if appointment %}
-                        <p>{{ appointment }}</p>
-                    {% endif %}
-                </div>
-            </div>
-
-            <div class="col">
-                {% if barbershop and barber and service and appointment %}
-                    {#                    <a class="btn btn-outline-success" href="{% url 'services:success' %}" >Enroll</a>#}
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ form }}
-                        <button type="submit" value="Submit" class="btn btn-outline-success">Enroll</button>
-                    </form>
-                {% endif %}
-            </div>
-
-            {#            <form method="POST" action="{% url 'services:booking' %}">{% csrf_token %}#}
-            {#                    <input type="hidden" name="order_id" value="{{ order_id }}">#}
-            {#                    <input type="hidden" name="email" value="{{ email }}">#}
-            {#                    <input type="hidden" name="service" value="{{ service }}">#}
-            {#                    <input type="hidden" name="stylist" value="{{ stylist }}">#}
-            {#                    <input type="hidden" name="date" value="{{ date }}">#}
-            {#                    <input type="hidden" name="time" value="{{ time }}">#}
-            {#                    <input type="hidden" name="amount" value="{{ amount }}">#}
-            {#                    <input type="hidden" name="name" value="{{ name }}">#}
-            {#                    <button type="submit">gg</button>#}
-            {#            </form>#}
-
-        </div>
+        </section>
     </div>
-
 {% endblock %}

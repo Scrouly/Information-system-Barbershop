@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from reviews.forms import ReviewForm
 from reviews.models import Review
 from services.models import Booking
+from users.models import Barber
 
 
 # def review(request, barber_pk):
@@ -84,4 +85,20 @@ def delete_review(request, pk):
         return redirect('users:profile')
     return render(request, 'reviews/delete_review.html', {'review': get_review})
 
+
+def barber_reviews(request, pk):
+    barber = get_object_or_404(Barber, pk=pk)
+    reviews = Review.objects.filter(barber=barber)
+    date_filter = request.GET.get('date')
+    sorted_filter = request.GET.get('sorted')
+    if sorted_filter == 'up':
+        reviews = reviews.order_by('rating')
+    elif sorted_filter == 'down':
+        reviews = reviews.order_by('-rating')
+    if date_filter == 'up':
+        reviews = reviews.order_by('updated_time')
+    elif date_filter == 'down':
+        reviews = reviews.order_by('-updated_time')
+    context = {"barber": barber, "reviews": reviews}
+    return render(request, 'reviews/barber_reviews.html', context)
 # Create your views here.

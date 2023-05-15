@@ -620,6 +620,7 @@ h6 {
     width: 125px;
     height: 125px;
 }
+
 .review .barber-card h5 {
     font-size: 30px;
     font-weight: 700;
@@ -643,11 +644,39 @@ h6 {
     font-size: 18px;
 }
 
-.review .form-control{
+.review .form-control {
     margin-top: 20px;
 }
 
 
+/*--------------------------------------------------------------
+# Booking
+--------------------------------------------------------------*/
+.booking {
+    margin-top: 20px;
+}
+
+
+
+.booking .info-card h6 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+}
+
+.booking .card-icon {
+    font-size: 32px;
+    line-height: 0;
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.booking .card-body {
+    padding: 20px 20px 20px 20px;
+}
 
 /*--------------------------------------------------------------
 # Dashboard

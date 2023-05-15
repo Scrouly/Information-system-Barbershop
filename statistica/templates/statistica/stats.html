@@ -8,16 +8,47 @@
 {% block content %}
     <section class="section dashboard">
         <div class="pagetitle">
-            <h1>{% if interim == "week" %}Weekly{% elif interim == "month" %}Monthly{% else %}Daily{% endif %} statistic
-                of {% if barbershop %}{{ barbershop.name }}{% endif %}{% if barber %} -
-                    {{ barber.user.username }}{% endif %}</h1>
+            <div class="flex-row d-flex">
+                <div class="col-lg-11 flex-column">
+                    <h1>{% if interim == "week" %}Weekly{% elif interim == "month" %}Monthly{% else %}Daily{% endif %}
+                        statistic
+                        of {% if barbershop %}{{ barbershop.name }}{% endif %}{% if barber %} -
+                            {{ barber.user.username }}{% endif %}</h1>
+                </div>
+                <div class="col-md-1 flex-column float-left">
+                    <div class="dropdown float-left">
+                        <button class="btn btn-outline-dark dropdown-toggle" type="button"
+                                data-toggle="dropdown">
+                            Barber
+                            <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item"><a
+                                    href="{% url 'stats:day_stats_info' barbershop.pk %}">Общая статистика</a></li>
+
+                            {% for barber in all_barbers %}
+                                <li class="dropdown-item"><a
+                                        href="{% url 'stats:day_stats_info_barber' pk=barbershop.pk barber_pk=barber.pk %}">{{ barber.user.first_name }}
+                                    - {{ barber.user.username }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{% url 'stats:day_stats_info' barbershop.pk %}">Today</a>
+                    <li class="breadcrumb-item"><a
+                            {% if barber %}href="{% url 'stats:day_stats_info_barber' pk=barbershop.pk barber_pk=barber.pk %}"
+                            {% else %}href="{% url 'stats:day_stats_info' pk=barbershop.pk %}"{% endif %}>Today</a>
                     </li>
-                    <li class="breadcrumb-item"><a href="{% url 'stats:week_stats_info' barbershop.pk %}">This week</a>
+                    <li class="breadcrumb-item"><a
+                            {% if barber %}href="{% url 'stats:week_stats_info_barber' pk=barbershop.pk barber_pk=barber.pk %}"
+                            {% else %}href="{% url 'stats:week_stats_info' pk=barbershop.pk %}"{% endif %}>This
+                        week</a>
                     </li>
-                    <li class="breadcrumb-item "><a href="{% url 'stats:month_stats_info' barbershop.pk %}">This
+                    <li class="breadcrumb-item "><a
+                            {% if barber %}href="{% url 'stats:month_stats_info_barber' pk=barbershop.pk barber_pk=barber.pk %}"
+                            {% else %}href="{% url 'stats:month_stats_info' pk=barbershop.pk %}"{% endif %}>This
                         month</a>
                     </li>
                 </ol>
@@ -50,9 +81,10 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
+
                     </div><!-- End Haircuts Card -->
+
 
                     <!-- Revenue Card -->
                     <div class="col-xxl-4 col-md-6">
@@ -106,167 +138,100 @@
                         </div>
 
                     </div><!-- End Customers Card -->
+                </div>
+                <!-- Reports -->
+                <div class="col-12">
+                    <div class="card">
 
-                    <!-- Reports -->
-                    <div class="col-12">
-                        <div class="card">
 
+                        <div class="card-body">
+                            <h5 class="card-title">Haircuts <span>/ {% if interim == "week" %}This week - Previous
+                                week{% elif interim == "month" %}This month - Previous month{% else %}Today -
+                                Yesterday{% endif %}</span></h5>
 
-                            <div class="card-body">
-                                <h5 class="card-title">Haircuts <span>/ {% if interim == "week" %}This week - Previous
-                                    week{% elif interim == "month" %}This month - Previous month{% else %}Today -
-                                    Yesterday{% endif %}</span></h5>
+                            <!-- Line Chart -->
+                            <div id="reportsChartHaircuts"></div>
 
-                                <!-- Line Chart -->
-                                <div id="reportsChartHaircuts"></div>
-
-                                <script>
-                                    document.addEventListener("DOMContentLoaded", () => {
-                                        new ApexCharts(document.querySelector("#reportsChartHaircuts"), {
-                                            series: [{
-                                                name: '{% if interim == "week" %}this week{% elif interim == "month"%}'+
-                                                    ' this month{% else %}Today{% endif %} haircuts',
-                                                data: {{current_appointments_per_interim|safe}},
-                                            }, {
-                                                name: '{% if interim == "week" %}7 days ago{% elif interim == "month"%}'
-                                                    +
-                                                    '30 days ago{% else %}Yesterday{% endif %} haircuts',
-                                                data: {{previous_appointments_per_interim|safe}},
-                                            },],
-                                            chart: {
-                                                height: 350,
-                                                type: 'area',
-                                                toolbar: {
-                                                    show: false
-                                                },
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new ApexCharts(document.querySelector("#reportsChartHaircuts"), {
+                                        series: [{
+                                            name: '{% if interim == "week" %}this week{% elif interim == "month"%}'+
+                                                ' this month{% else %}Today{% endif %} haircuts',
+                                            data: {{current_appointments_per_interim|safe}},
+                                        }, {
+                                            name: '{% if interim == "week" %}7 days ago{% elif interim == "month"%}'
+                                                +
+                                                '30 days ago{% else %}Yesterday{% endif %} haircuts',
+                                            data: {{previous_appointments_per_interim|safe}},
+                                        },],
+                                        chart: {
+                                            height: 350,
+                                            type: 'area',
+                                            toolbar: {
+                                                show: false
                                             },
-                                            markers: {
-                                                size: 4
-                                            },
-                                            colors: ['#4154f1', '#f1416a',],
-                                            fill: {
-                                                type: "gradient",
-                                                gradient: {
-                                                    shadeIntensity: 1,
-                                                    opacityFrom: 0.3,
-                                                    opacityTo: 0.4,
-                                                    stops: [0, 90, 100]
-                                                }
-                                            },
-                                            dataLabels: {
-                                                enabled: false
-                                            },
-                                            stroke: {
-                                                curve: 'smooth',
-                                                width: 2
-                                            },
-                                            xaxis: {
+                                        },
+                                        markers: {
+                                            size: 4
+                                        },
+                                        colors: ['#4154f1', '#f1416a',],
+                                        fill: {
+                                            type: "gradient",
+                                            gradient: {
+                                                shadeIntensity: 1,
+                                                opacityFrom: 0.3,
+                                                opacityTo: 0.4,
+                                                stops: [0, 90, 100]
+                                            }
+                                        },
+                                        dataLabels: {
+                                            enabled: false
+                                        },
+                                        stroke: {
+                                            curve: 'smooth',
+                                            width: 2
+                                        },
+                                        xaxis: {
 
-                                                categories: {{ time|safe }}
-                                            },
+                                            categories: {{ time|safe }}
+                                        },
 
-                                        }).render();
-                                    });
-                                </script>
-                                <!-- End Line Chart -->
-
-                            </div>
+                                    }).render();
+                                });
+                            </script>
+                            <!-- End Line Chart -->
 
                         </div>
 
-                        <div class="col-12">
-
-                            <div class="card">
-
-
-                                <div class="card-body pb-0">
-                                    <h5 class="card-title">Revenue <span>/ {% if interim == "week" %}This week -
-                                        Previous week{% elif interim == "month" %}This month - Previous month{% else %}
-                                        Today - Yesterday{% endif %}</span></h5>
-
-                                    <!-- Line Chart -->
-                                    <div id="reportsChartRevenue"></div>
-
-                                    <script>
-                                        document.addEventListener("DOMContentLoaded", () => {
-                                            new ApexCharts(document.querySelector("#reportsChartRevenue"), {
-                                                series: [{
-                                                    name: '{% if interim == "week" %}'+
-                                                        'this week{% elif interim == "month"%}this month{% else %}'+
-                                                        'Today{% endif %} revenue',
-                                                    data: {{current_revenue_per_interim|safe}},
-                                                }, {
-                                                    name: '{% if interim == "week" %}'+
-                                                        '7 days ago{% elif interim == "month"%}30 days ago{% else %}'+
-                                                        'Yesterday{% endif %} revenue',
-                                                    data: {{previous_revenue_per_interim|safe}},
-                                                },],
-                                                chart: {
-                                                    height: 350,
-                                                    type: 'area',
-                                                    toolbar: {
-                                                        show: false
-                                                    },
-                                                },
-                                                markers: {
-                                                    size: 4
-                                                },
-                                                colors: ['#2eca6a', '#f1416a'],
-                                                fill: {
-                                                    type: "gradient",
-                                                    gradient: {
-                                                        shadeIntensity: 1,
-                                                        opacityFrom: 0.3,
-                                                        opacityTo: 0.4,
-                                                        stops: [0, 90, 100]
-                                                    }
-                                                },
-                                                dataLabels: {
-                                                    enabled: false
-                                                },
-                                                stroke: {
-                                                    curve: 'smooth',
-                                                    width: 2
-                                                },
-                                                xaxis: {
-
-                                                    categories: {{ time|safe }}
-                                                },
-
-                                            }).render();
-                                        });
-                                    </script>
-                                    <!-- End Line Chart -->
-
-                                </div>
-
-                            </div>
-                        </div><!-- End Reports -->
-                    </div><!-- End Reports -->
+                    </div>
 
                     <div class="col-12">
+
                         <div class="card">
 
 
                             <div class="card-body pb-0">
-                                <h5 class="card-title">Customers <span>/ {% if interim == "week" %}This week - Previous
-                                    week{% elif interim == "month" %}This month - Previous month{% else %}Today -
-                                    Yesterday{% endif %}</span></h5>
+                                <h5 class="card-title">Revenue <span>/ {% if interim == "week" %}This week -
+                                    Previous week{% elif interim == "month" %}This month - Previous month{% else %}
+                                    Today - Yesterday{% endif %}</span></h5>
 
                                 <!-- Line Chart -->
-                                <div id="reportsChartCustomers"></div>
+                                <div id="reportsChartRevenue"></div>
 
                                 <script>
                                     document.addEventListener("DOMContentLoaded", () => {
-                                        new ApexCharts(document.querySelector("#reportsChartCustomers"), {
+                                        new ApexCharts(document.querySelector("#reportsChartRevenue"), {
                                             series: [{
-                                                name: '{% if interim == "week" %}this week{% elif interim == "month"%}'+
-                                                    'this month{% else %}Today{% endif %} customers',
-                                                data: {{current_customers_per_interim|safe}},
+                                                name: '{% if interim == "week" %}'+
+                                                    'this week{% elif interim == "month"%}this month{% else %}'+
+                                                    'Today{% endif %} revenue',
+                                                data: {{current_revenue_per_interim|safe}},
                                             }, {
-                                                name: '{% if interim == "week" %}7 days ago{% elif interim == "month"%}'
-                                                    +'30 days ago{% else %}Yesterday{% endif %} customers',
-                                                data: {{previous_customers_per_interim|safe}},
+                                                name: '{% if interim == "week" %}'+
+                                                    '7 days ago{% elif interim == "month"%}30 days ago{% else %}'+
+                                                    'Yesterday{% endif %} revenue',
+                                                data: {{previous_revenue_per_interim|safe}},
                                             },],
                                             chart: {
                                                 height: 350,
@@ -278,7 +243,7 @@
                                             markers: {
                                                 size: 4
                                             },
-                                            colors: ['#ff771d', '#f1416a'],
+                                            colors: ['#2eca6a', '#f1416a'],
                                             fill: {
                                                 type: "gradient",
                                                 gradient: {
@@ -309,8 +274,74 @@
 
                         </div>
                     </div><!-- End Reports -->
+                </div><!-- End Reports -->
 
-                </div>
+                <div class="col-12">
+                    <div class="card">
+
+
+                        <div class="card-body pb-0">
+                            <h5 class="card-title">Customers <span>/ {% if interim == "week" %}This week - Previous
+                                week{% elif interim == "month" %}This month - Previous month{% else %}Today -
+                                Yesterday{% endif %}</span></h5>
+
+                            <!-- Line Chart -->
+                            <div id="reportsChartCustomers"></div>
+
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new ApexCharts(document.querySelector("#reportsChartCustomers"), {
+                                        series: [{
+                                            name: '{% if interim == "week" %}this week{% elif interim == "month"%}'+
+                                                'this month{% else %}Today{% endif %} customers',
+                                            data: {{current_customers_per_interim|safe}},
+                                        }, {
+                                            name: '{% if interim == "week" %}7 days ago{% elif interim == "month"%}'
+                                                +'30 days ago{% else %}Yesterday{% endif %} customers',
+                                            data: {{previous_customers_per_interim|safe}},
+                                        },],
+                                        chart: {
+                                            height: 350,
+                                            type: 'area',
+                                            toolbar: {
+                                                show: false
+                                            },
+                                        },
+                                        markers: {
+                                            size: 4
+                                        },
+                                        colors: ['#ff771d', '#f1416a'],
+                                        fill: {
+                                            type: "gradient",
+                                            gradient: {
+                                                shadeIntensity: 1,
+                                                opacityFrom: 0.3,
+                                                opacityTo: 0.4,
+                                                stops: [0, 90, 100]
+                                            }
+                                        },
+                                        dataLabels: {
+                                            enabled: false
+                                        },
+                                        stroke: {
+                                            curve: 'smooth',
+                                            width: 2
+                                        },
+                                        xaxis: {
+
+                                            categories: {{ time|safe }}
+                                        },
+
+                                    }).render();
+                                });
+                            </script>
+                            <!-- End Line Chart -->
+
+                        </div>
+
+                    </div>
+                </div><!-- End Reports -->
+
             </div><!-- End Left side columns -->
 
             <!-- Right side columns -->
@@ -465,6 +496,8 @@
 
 
             </div>
+
+
             {% if interim == "week" or interim == "month" %}
                 <div class="col-lg-12">
                     <div class="col-xxl-12 col-md-12">
@@ -524,6 +557,7 @@
                 </div>
             {% endif %}
         </div>
+
     </section>
 
     <!-- Vendor JS Files -->

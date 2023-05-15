@@ -52,4 +52,4 @@ class WorkingTime(models.Model):
     hour = models.TimeField(default='00:00:00')
 
     def __str__(self):
-        return f'Рабочее время: {self.hour.strftime("%H:%M")}'
+        return f'{self.hour.strftime("%H:%M")}'
