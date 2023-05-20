@@ -12,6 +12,7 @@ from users.models import Barber, CustomUser
 from django.contrib.auth.decorators import login_required
 
 
+@login_required()
 def booking_success(request):
     user_booking = Booking.objects.filter(customer__username=request.user).order_by('-creation_time').first()
     context = {'booking': user_booking, }
@@ -170,3 +171,4 @@ def delete_booking(request, pk):
         messages.success(request, 'Запись была отменена')
         return redirect('users:profile')
     return render(request, 'services/delete_booking.html', {'booking': get_booking})
+

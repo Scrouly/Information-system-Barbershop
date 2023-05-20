@@ -100,7 +100,6 @@ def profile(request):
     return render(request, 'users/profile.html', context)
 
 
-@login_required()
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(reverse('index'))

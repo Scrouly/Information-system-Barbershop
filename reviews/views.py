@@ -49,7 +49,7 @@ def review(request, pk):
             reviews = Review.objects.get(user__pk=request.user.id, appointment__pk=booking.id)
             form = ReviewForm(request.POST, instance=reviews)
             form.save()
-            messages.success(request, 'Thank you! Your review has been updated.')
+            messages.success(request, 'Спасибо! Ваш отзыв был обновлен.')
             return redirect('users:profile')
         except Review.DoesNotExist:
             form = ReviewForm(request.POST)
@@ -62,7 +62,7 @@ def review(request, pk):
                 data.barber_id = booking.barber_id
                 data.user_id = request.user.id
                 data.save()
-                messages.success(request, 'Thank you! Your review has been submitted.')
+                messages.success(request, 'Спасибо! Ваш отзыв опубликован.')
                 return redirect("users:profile")
     else:
         try:
@@ -81,7 +81,7 @@ def delete_review(request, pk):
     get_review = get_object_or_404(Review, pk=pk)
     if request.method == 'POST':
         get_review.delete()
-        messages.success(request, 'Your review has been deleted.')
+        messages.success(request, 'Ваш отзыв был удален.')
         return redirect('users:profile')
     return render(request, 'reviews/delete_review.html', {'review': get_review})
 

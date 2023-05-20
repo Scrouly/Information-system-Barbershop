@@ -3,7 +3,7 @@
 
 
 {% block title %}
-    Home
+    Барбершоп
 {% endblock %}
 {% block content %}
     <section class="section barbershop">
@@ -72,7 +72,7 @@
                                                     {% endif %}
                                                     <button class="btn btn-outline-warning" type="button"
                                                             onclick="window.history.back()"
-                                                            style="margin-left: 10px;">Back
+                                                            style="margin-left: 10px;">Назад
                                                     </button>
                                                 </div>
 
@@ -100,7 +100,7 @@
                                         <div class="col-lg-6">
                                             <div class="info-box card">
                                                 <i class="bi bi-clock"></i>
-                                                <h3>Open Hours</h3>
+                                                <h3>Часы работы</h3>
 
                                                 <p>{{ working_time.0|time:'H:i' }} - {{ working_time.1|time:'H:i' }}</p>
 
@@ -109,21 +109,21 @@
                                         <div class="col-lg-6">
                                             <div class="info-box card">
                                                 <i class="bi bi-geo-alt"></i>
-                                                <h3>Address</h3>
+                                                <h3>Адрес</h3>
                                                 <p>{{ barbershop.city.name }}, {{ barbershop.address }}</p>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="info-box card">
                                                 <i class="bi bi-telephone"></i>
-                                                <h3>Call Us</h3>
+                                                <h3>Телефон</h3>
                                                 <p>{{ barbershop.phone_number }}</p>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="info-box card">
                                                 <i class="bi bi-envelope"></i>
-                                                <h3>Email Us</h3>
+                                                <h3>Email</h3>
                                                 <p>{{ barbershop.email }}</p>
                                             </div>
                                         </div>
@@ -145,14 +145,14 @@
                                     <div class="card-title">
                                         <div class="col-lg-12">
                                             <div class="row">
-                                                <div class="col-sm-9">
+                                                <div class="col-xxl-9 col-xl-8 col-lg-8 col-me-5 col-sm-6">
                                                     <h2 style="font-size: 24px; margin-top: 5px">Отзывы</h2>
                                                 </div>
 
-                                                <div class="col-sm-3">
+                                                <div class="col-xxl-3 col-xl-4 col-lg-4 col-me-7 col-sm-6">
 
                                                     <div class="row">
-                                                        <div class="col-sm-4">
+                                                        <div class="col-sm-5">
                                                             <div class="dropdown">
                                                                 <button class="btn btn-outline-dark dropdown-toggle"
                                                                         type="button"
@@ -171,7 +171,7 @@
                                                                 </ul>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-8">
+                                                        <div class="col-sm-7">
                                                             <div class="dropdown">
                                                                 <button class="btn btn-outline-dark dropdown-toggle"
                                                                         type="button"

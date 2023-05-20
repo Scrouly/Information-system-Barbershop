@@ -3,12 +3,12 @@
 
 
 {% block title %}
-    Home
+    Отзывы
 {% endblock %}
 {% block content %}
     <section class="section review">
         <div class="pagetitle">
-            <h1>Leave your review</h1>
+            <h1>Оставьте свой отзыв</h1>
         </div>
         <div class="row">
             <div class="card">
@@ -68,19 +68,19 @@
                     <div class="card-body barber-card pt-4 d-flex flex-column ">
                         {% if user.is_authenticated %}
                             <div>
-                                <input type="submit" value="Submit Review" class="btn btn-outline-success">
+                                <input type="submit" value="Отправить отзыв" class="btn btn-outline-success">
                                 {% if review %}
                                     <a class="btn btn-outline-danger" href="{% url 'reviews:delete_review' review.pk %}"
-                                       style="margin-left: 10px;">Delete</a>
+                                       style="margin-left: 10px;">Удалить</a>
                                 {% endif %}
                                 <button class="btn btn-outline-warning" type="button" onclick="window.history.back()"
-                                        style="margin-left: 10px;">Back
+                                        style="margin-left: 10px;">Назад
                                 </button>
                             </div>
 
                         {% else %}
-                            <p>You must be logged in to post a review. <span><a
-                                    href="{% url 'users:signin' %}">Login now</a></span>
+                            <p>Вы должны войти в систему, чтобы оставить отзыв. <span><a
+                                    href="{% url 'users:signin' %}">Войти сейчас</a></span>
                             </p>
                         {% endif %}
                     </div>

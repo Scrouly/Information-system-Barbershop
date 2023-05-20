@@ -3,23 +3,23 @@
 
 
 {% block title %}
-    Home
+    Статистика
 {% endblock %}
 {% block content %}
     <section class="section dashboard">
         <div class="pagetitle">
             <div class="flex-row d-flex">
-                <div class="col-lg-11 flex-column">
-                    <h1>{% if interim == "week" %}Weekly{% elif interim == "month" %}Monthly{% else %}Daily{% endif %}
-                        statistic
-                        of {% if barbershop %}{{ barbershop.name }}{% endif %}{% if barber %} -
+                <div class="col-xl-11 col-md-10 col-9 flex-column">
+                    <h1>Статистика за {% if interim == "week" %}неделю{% elif interim == "month" %}месяц{% else %}
+                        день{% endif %} для барбершопа:
+                        {% if barbershop %}{{ barbershop.name }}{% endif %}{% if barber %} -
                             {{ barber.user.username }}{% endif %}</h1>
                 </div>
-                <div class="col-md-1 flex-column float-left">
+                <div class="col-xl-1 col-md-2 col-3 flex-column float-left">
                     <div class="dropdown float-left">
                         <button class="btn btn-outline-dark dropdown-toggle" type="button"
                                 data-toggle="dropdown">
-                            Barber
+                            Барбер
                             <span class="caret"></span></button>
                         <ul class="dropdown-menu">
                             <li class="dropdown-item"><a
@@ -39,17 +39,15 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a
                             {% if barber %}href="{% url 'stats:day_stats_info_barber' pk=barbershop.pk barber_pk=barber.pk %}"
-                            {% else %}href="{% url 'stats:day_stats_info' pk=barbershop.pk %}"{% endif %}>Today</a>
+                            {% else %}href="{% url 'stats:day_stats_info' pk=barbershop.pk %}"{% endif %}>Сегодня</a>
                     </li>
                     <li class="breadcrumb-item"><a
                             {% if barber %}href="{% url 'stats:week_stats_info_barber' pk=barbershop.pk barber_pk=barber.pk %}"
-                            {% else %}href="{% url 'stats:week_stats_info' pk=barbershop.pk %}"{% endif %}>This
-                        week</a>
+                            {% else %}href="{% url 'stats:week_stats_info' pk=barbershop.pk %}"{% endif %}>За неделю</a>
                     </li>
                     <li class="breadcrumb-item "><a
                             {% if barber %}href="{% url 'stats:month_stats_info_barber' pk=barbershop.pk barber_pk=barber.pk %}"
-                            {% else %}href="{% url 'stats:month_stats_info' pk=barbershop.pk %}"{% endif %}>This
-                        month</a>
+                            {% else %}href="{% url 'stats:month_stats_info' pk=barbershop.pk %}"{% endif %}>За месяц</a>
                     </li>
                 </ol>
             </nav>
@@ -65,8 +63,8 @@
                         <div class="card info-card sales-card">
 
                             <div class="card-body">
-                                <h5 class="card-title">Haircuts <span>| {% if interim == "week" %}This
-                                    week{% elif interim == "month" %}This month{% else %}Today{% endif %}</span></h5>
+                                <h5 class="card-title">Услуги <span>| {% if interim == "week" %}За
+                                    неделю{% elif interim == "month" %}За месяц{% else %}Сегодня{% endif %}</span></h5>
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center ">
@@ -77,7 +75,7 @@
                                         <span class="text-{% if appointments_difference < 0 %}danger{% else %}success{% endif %} small pt-1 fw-bold">{{ appointments_difference }}%</span>
                                         <span
                                                 class="text-muted small pt-2 ps-1">{% if appointments_difference < 0 %}
-                                            decrease{% else %}increase{% endif %}</span>
+                                            снижение{% else %}увеличение{% endif %}</span>
                                     </div>
                                 </div>
                             </div>
@@ -91,8 +89,8 @@
                         <div class="card info-card revenue-card">
 
                             <div class="card-body">
-                                <h5 class="card-title">Revenue <span>| {% if interim == "week" %}This
-                                    week{% elif interim == "month" %}This month{% else %}Today{% endif %}</span></h5>
+                                <h5 class="card-title">Прибыль <span>| {% if interim == "week" %}За
+                                    неделю{% elif interim == "month" %}За месяц{% else %}Сегодня{% endif %}</span></h5>
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -104,7 +102,7 @@
                                         <span class="text-{% if revenue_difference < 0 %}danger{% else %}success{% endif %} small pt-1 fw-bold">{{ revenue_difference }}%</span>
                                         <span
                                                 class="text-muted small pt-2 ps-1">{% if revenue_difference < 0 %}
-                                            decrease{% else %}increase{% endif %}</span>
+                                            снижение{% else %}увеличение{% endif %}</span>
                                     </div>
                                 </div>
                             </div>
@@ -118,8 +116,8 @@
                         <div class="card info-card customers-card">
 
                             <div class="card-body">
-                                <h5 class="card-title">Customers <span>| {% if interim == "week" %}This
-                                    week{% elif interim == "month" %}This month{% else %}Today{% endif %}</span></h5>
+                                <h5 class="card-title">Посетители <span>| {% if interim == "week" %}За
+                                    неделю{% elif interim == "month" %}За месяц{% else %}Сегодня{% endif %}</span></h5>
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -130,7 +128,7 @@
                                         <span class="text-{% if customers_difference < 0 %}danger{% else %}success{% endif %} small pt-1 fw-bold">{{ customers_difference }}%</span>
                                         <span
                                                 class="text-muted small pt-2 ps-1">{% if customers_difference < 0 %}
-                                            decrease{% else %}increase{% endif %}</span>
+                                            снижение{% else %}увеличение{% endif %}</span>
                                     </div>
                                 </div>
 
@@ -145,9 +143,9 @@
 
 
                         <div class="card-body">
-                            <h5 class="card-title">Haircuts <span>/ {% if interim == "week" %}This week - Previous
-                                week{% elif interim == "month" %}This month - Previous month{% else %}Today -
-                                Yesterday{% endif %}</span></h5>
+                            <h5 class="card-title">Услуги <span>/ {% if interim == "week" %}Эта неделя -
+                                Предыдущая{% elif interim == "month" %}Этот месяц - Предыдущий{% else %}
+                                Сегодня - Вчера{% endif %}</span></h5>
 
                             <!-- Line Chart -->
                             <div id="reportsChartHaircuts"></div>
@@ -156,13 +154,14 @@
                                 document.addEventListener("DOMContentLoaded", () => {
                                     new ApexCharts(document.querySelector("#reportsChartHaircuts"), {
                                         series: [{
-                                            name: '{% if interim == "week" %}this week{% elif interim == "month"%}'+
-                                                ' this month{% else %}Today{% endif %} haircuts',
+                                            name: 'Услуги за {% if interim == "week" %}неделю'+
+                                                '{% elif interim == "month"%}'+
+                                                'месяц{% else %}сегодня{% endif %}',
                                             data: {{current_appointments_per_interim|safe}},
                                         }, {
-                                            name: '{% if interim == "week" %}7 days ago{% elif interim == "month"%}'
-                                                +
-                                                '30 days ago{% else %}Yesterday{% endif %} haircuts',
+                                            name: 'Услуги за {% if interim == "week" %}'+
+                                                'предыдущую неделю{% elif interim == "month"%}'+
+                                                'предыдущий месяц{% else %}вчера{% endif %}',
                                             data: {{previous_appointments_per_interim|safe}},
                                         },],
                                         chart: {
@@ -212,9 +211,9 @@
 
 
                             <div class="card-body pb-0">
-                                <h5 class="card-title">Revenue <span>/ {% if interim == "week" %}This week -
-                                    Previous week{% elif interim == "month" %}This month - Previous month{% else %}
-                                    Today - Yesterday{% endif %}</span></h5>
+                                <h5 class="card-title">Прибыль <span>/ {% if interim == "week" %}Эта неделя -
+                                    Предыдущая{% elif interim == "month" %}Этот месяц - Предыдущий{% else %}
+                                    Сегодня - Вчера{% endif %}</span></h5>
 
                                 <!-- Line Chart -->
                                 <div id="reportsChartRevenue"></div>
@@ -223,14 +222,14 @@
                                     document.addEventListener("DOMContentLoaded", () => {
                                         new ApexCharts(document.querySelector("#reportsChartRevenue"), {
                                             series: [{
-                                                name: '{% if interim == "week" %}'+
-                                                    'this week{% elif interim == "month"%}this month{% else %}'+
-                                                    'Today{% endif %} revenue',
+                                                name: 'Прибыль за {% if interim == "week" %}'+
+                                                    'за неделю{% elif interim == "month"%}за месяц{% else %}'+
+                                                    'сегодня{% endif %}',
                                                 data: {{current_revenue_per_interim|safe}},
                                             }, {
-                                                name: '{% if interim == "week" %}'+
-                                                    '7 days ago{% elif interim == "month"%}30 days ago{% else %}'+
-                                                    'Yesterday{% endif %} revenue',
+                                                name: 'Прибыль за {% if interim == "week" %}'+
+                                                    'предыдущую неделю{% elif interim == "month"%}'+
+                                                    'предыдущий месяц{% else %}вчера{% endif %}',
                                                 data: {{previous_revenue_per_interim|safe}},
                                             },],
                                             chart: {
@@ -281,9 +280,9 @@
 
 
                         <div class="card-body pb-0">
-                            <h5 class="card-title">Customers <span>/ {% if interim == "week" %}This week - Previous
-                                week{% elif interim == "month" %}This month - Previous month{% else %}Today -
-                                Yesterday{% endif %}</span></h5>
+                            <h5 class="card-title">Посетители <span>/ {% if interim == "week" %}Эта неделя -
+                                Предыдущая{% elif interim == "month" %}Этот месяц - Предыдущий{% else %}
+                                Сегодня - Вчера{% endif %}</span></h5>
 
                             <!-- Line Chart -->
                             <div id="reportsChartCustomers"></div>
@@ -292,12 +291,14 @@
                                 document.addEventListener("DOMContentLoaded", () => {
                                     new ApexCharts(document.querySelector("#reportsChartCustomers"), {
                                         series: [{
-                                            name: '{% if interim == "week" %}this week{% elif interim == "month"%}'+
-                                                'this month{% else %}Today{% endif %} customers',
+                                            name: 'Посетителей за {% if interim == "week" %}'+
+                                                'неделю{% elif interim == "month"%}'+
+                                                'месяц{% else %}сегодня{% endif %}',
                                             data: {{current_customers_per_interim|safe}},
                                         }, {
-                                            name: '{% if interim == "week" %}7 days ago{% elif interim == "month"%}'
-                                                +'30 days ago{% else %}Yesterday{% endif %} customers',
+                                            name: 'Посетителей за {% if interim == "week" %}'+
+                                                'предыдущую неделю{% elif interim == "month"%}'+
+                                                'предыдущий месяц{% else %}вчера{% endif %}',
                                             data: {{previous_customers_per_interim|safe}},
                                         },],
                                         chart: {
@@ -352,16 +353,16 @@
                     <div class="card review-card info-card">
 
                         <div class="card-body">
-                            <h5 class="card-title">Stars <span>| {% if interim == "week" %}This
-                                week{% elif interim == "month" %}This month{% else %}Today{% endif %}</span></h5>
+                            <h5 class="card-title">Оценки<span> | {% if interim == "week" %}За
+                                неделю{% elif interim == "month" %}За месяц{% else %}Сегодня{% endif %}</span></h5>
 
                             <div class="d-flex align-items-center">
                                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                     <i class="bi bi-star"></i>
                                 </div>
                                 <div class="ps-3">
-                                    <h6>{{ current_reviews }} reviews</h6>
-                                    <span class="text-muted small pt-1 fw-bold">average</span>
+                                    <h6>{{ current_reviews }} отзывов</h6>
+                                    <span class="text-muted small pt-1 fw-bold">средняя</span>
                                     <span class="text-{% if current_average_rating > 3.5 %}success{% else %}danger{% endif %} small pt-1 fw-bold">{{ current_average_rating }}</span>
                                     <span
                                             class="text small pt-2 ps-1"><i class="bi bi-star-fill"></i></span>
@@ -375,8 +376,8 @@
                 <div class="card">
 
                     <div class="card-body pb-0">
-                        <h5 class="card-title">Reviews<span>| {% if interim == "week" %}This
-                            week{% elif interim == "month" %}This month{% else %}Today{% endif %}</span></h5>
+                        <h5 class="card-title">Оценки<span> | {% if interim == "week" %}За
+                            неделб{% elif interim == "month" %}За месяц{% else %}Сегодня{% endif %}</span></h5>
 
                         <div id="ReviewsChart" style="min-height: 400px;" class="echart"></div>
 
@@ -420,7 +421,7 @@
                                             {% else %}
                                                 {
                                                     value: 0,
-                                                    name: 'Сегодня никто не оставил отзыв :('
+                                                    name: 'Никто не оставил отзыв :('
                                                 },
 
 
@@ -437,8 +438,8 @@
                 <div class="card">
 
                     <div class="card-body pb-0">
-                        <h5 class="card-title">Barber productivity <span>| {% if interim == "week" %}This
-                            week{% elif interim == "month" %}This month{% else %}Today{% endif %}</span></h5>
+                        <h5 class="card-title">Производительность барберов <span>| {% if interim == "week" %}За
+                            неделю{% elif interim == "month" %}За месяц{% else %}Сегодня{% endif %}</span></h5>
 
                         <div id="BarberProductivityChart" style="min-height: 400px;" class="echart"></div>
 
@@ -482,7 +483,7 @@
                                             {% else %}
                                                 {
                                                     value: 0,
-                                                    name: 'Сегодня никто не работал :('
+                                                    name: 'Никто не работал :('
                                                 },
                                             {% endif %}
                                         ]
@@ -504,8 +505,8 @@
                         <div class="card">
 
                             <div class="card-body pb-0">
-                                <h5 class="card-title">Maximum load hours <span>/ {% if interim == "week" %}This
-                                    week{% elif interim == "month" %}This month{% else %}Today{% endif %}</span></h5>
+                                <h5 class="card-title">Часы максимальной загрузки<span>/ {% if interim == "week" %}За
+                                    неделю{% elif interim == "month" %}За месяц{% else %}Сегодня{% endif %}</span></h5>
                                 <!-- Line Chart -->
                                 <div id="reportsChartMaxLoad"></div>
 
@@ -513,7 +514,7 @@
                                     document.addEventListener("DOMContentLoaded", () => {
                                         new ApexCharts(document.querySelector("#reportsChartMaxLoad"), {
                                             series: [{
-                                                name: "Customers per hour",
+                                                name: "Поситителей за час",
                                                 data: {{max_load_per_interim|safe}}
                                             }],
                                             chart: {

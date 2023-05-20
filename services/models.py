@@ -1,6 +1,6 @@
 from django.db import models
 from salon.models import Barbershop
-from datetime import datetime
+from datetime import datetime, time
 
 
 class Qualifications(models.Model):
@@ -40,9 +40,19 @@ class Booking(models.Model):
     def __str__(self):
         return f'{self.appointment_date}-{self.appointment_time.hour} {self.service}'
 
+    # def save(self, *args, **kwargs):
+    #     now = datetime.now()
+    #     appointment_datetime = datetime.combine(self.appointment_date, self.appointment_time.hour)
+    #     if now > appointment_datetime:
+    #         self.completed = True
+    #     super(Booking, self).save(*args, **kwargs)
     def save(self, *args, **kwargs):
         now = datetime.now()
-        appointment_datetime = datetime.combine(self.appointment_date, self.appointment_time.hour)
+        if isinstance(self.appointment_time.hour, str):
+            appointment_time = time.fromisoformat(self.appointment_time.hour)  # Convert the string to datetime.time
+        else:
+            appointment_time = self.appointment_time.hour
+        appointment_datetime = datetime.combine(self.appointment_date, appointment_time)
         if now > appointment_datetime:
             self.completed = True
         super(Booking, self).save(*args, **kwargs)

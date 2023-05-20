@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Home
+    Запись
 {% endblock %}
 
 {% block content %}
@@ -17,10 +17,10 @@
                     <div class="card-body barber-card pt-4 d-flex flex-column ">
                         <h2 style="margin: 0 0 0 0">Информация о записи:</h2>
                         <ul>
-                            <li><h3 style="margin-top: 15px">Barbershop: {{ booking.barber.barbershop.name }}</h3></li>
-                            <li><h3>Barber: {{ booking.barber.user.first_name }}</h3></li>
-                            <li><h3>Time: {{ booking.appointment_date }}
-                                in {{ booking.appointment_time.hour|time:'H:i' }}</h3></li>
+                            <li><h3 style="margin-top: 15px">Барбершоп: {{ booking.barber.barbershop.name }}</h3></li>
+                            <li><h3>Барбер: {{ booking.barber.user.first_name }}</h3></li>
+                            <li><h3>Время: {{ booking.appointment_date }}
+                                в {{ booking.appointment_time.hour|time:'H:i' }}</h3></li>
                         </ul>
 
                         <p>Вы уверены что хотите отменить запись?</p>

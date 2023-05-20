@@ -3,18 +3,18 @@
 
 
 {% block title %}
-    Home
+    Запись
 {% endblock %}
 {% block content %}
     <div class="col-md-8 mx-auto bg-body-tertiary rounded">
         <section class="section booking">
 
             <div class="pagetitle">
-                <h1>Barbers</h1>
+                <h1>Барберы</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item" onclick="window.history.back()">
-                            Back
+                        <li class="breadcrumb-item">
+                            <a href="javascript:history.back()">Назад</a>
                         </li>
                         <li class="breadcrumb-item">Booking</li>
                     </ol>
@@ -31,9 +31,9 @@
                                         <img src="{{ barber.user.profile_img.url }}"
                                              alt="barber image" class="rounded-circle card-icon">
                                     </div>
-                                    <div class="col-xl-12">
+                                    <div class="col-12">
                                         <div class="row">
-                                            <div class="col-10">
+                                            <div class="col-lg-10 col-sm-9 col-9">
                                                 <div class="ps-3">
 
 
@@ -62,7 +62,7 @@
 
                                                 </div>
                                             </div>
-                                            <div class="col-2">
+                                            <div class="col-lg-2 col-sm-3 col-3">
                                                 <div class="card-icon rounded-circle d-flex align-items-center "
                                                      style="width: auto; height: auto; font-size: 25px">
                                                     <a href="

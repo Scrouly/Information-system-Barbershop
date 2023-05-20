@@ -3,7 +3,7 @@
 
 
 {% block title %}
-    Home
+    Отзывы
 {% endblock %}
 {% block content %}
     <section class="section review">
@@ -15,8 +15,8 @@
                     {{ barber.barbershop.name }}</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item" onclick="window.history.back()">
-                            Back
+                        <li class="breadcrumb-item">
+                            <a href="javascript:history.back()">Назад</a>
                         </li>
                         <li class="breadcrumb-item">Reviews</li>
                     </ol>
@@ -55,11 +55,11 @@
                             <div class="card-body">
                                 <div class="card-title">
                                     <div class="row">
-                                        <div class="col-sm-7">
+                                        <div class="col-xl-7 col-lg-6 col-sm-4">
                                             <h2 style="font-size: 24px; margin-top: 5px">Отзывы</h2>
                                         </div>
 
-                                        <div class="col-sm-5">
+                                        <div class="col-xl-5 col-lg-6 col-sm-8">
 
                                             <div class="row d-flex">
                                                 <div class="col-4 ">

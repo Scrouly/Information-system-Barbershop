@@ -164,7 +164,7 @@ from django.contrib.auth.decorators import permission_required
 #                }
 #     return render(request, "statistica/stats.html", context)
 # Create your views here.
-@permission_required('users.barber.can_add_barber')
+@permission_required('users.add_barber')
 def stats_info(request, pk, barber_pk=None):
     print('-------------stats_info_in-------------')
 

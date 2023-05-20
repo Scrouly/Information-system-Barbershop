@@ -3,7 +3,7 @@
 
 
 {% block title %}
-    Home
+    Запись
 {% endblock %}
 {% block content %}
     <section class="section review">
@@ -12,7 +12,7 @@
 
                 <div class="pagetitle">
                     <h1>
-                        <slot>Barbershop:</slot>
+                        <slot>Барбершоп:</slot>
                         {{ booking.barbershop.name }}</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -29,11 +29,11 @@
                                 <h2 style="margin: 0 0 0 0">Вы успешно записаны:</h2>
                                 <ul>
                                     <li><h3 style="margin-top: 15px">
-                                        Barbershop: {{ booking.barber.barbershop.name }}</h3></li>
-                                    <li><h3>Barber: {{ booking.barber.user.first_name }}</h3></li>
-                                    <li><h3>Service: {{ booking.service.service.name }} - {{ booking.service.price }} BYN</h3></li>
-                                    <li><h3>Time: {{ booking.appointment_date }}
-                                        in {{ booking.appointment_time.hour|time:'H:i' }}</h3></li>
+                                        Барбершоп: {{ booking.barber.barbershop.name }}</h3></li>
+                                    <li><h3>Барбер: {{ booking.barber.user.first_name }}</h3></li>
+                                    <li><h3>Услуга: {{ booking.service.service.name }} - {{ booking.service.price }} BYN</h3></li>
+                                    <li><h3>Время: {{ booking.appointment_date }}
+                                        в {{ booking.appointment_time.hour|time:'H:i' }}</h3></li>
                                 </ul>
 
                                 <div>

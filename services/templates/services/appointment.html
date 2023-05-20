@@ -3,44 +3,37 @@
 
 
 {% block title %}
-    Home
+    Запись
 {% endblock %}
 {% block content %}
     <section class="section booking">
-        <div class="col-md-8 mx-auto bg-body-tertiary rounded">
+        <div class="col-8 mx-auto bg-body-tertiary rounded">
             <div class="pagetitle">
-                <h1>Dates</h1>
+                <h1>Свободное время</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item" onclick="window.history.back()">
-                            Back
+                        <li class="breadcrumb-item">
+                            <a href="javascript:history.back()">Назад</a>
                         </li>
                         <li class="breadcrumb-item">Booking</li>
                     </ol>
                 </nav>
-            </div><!-- End Page Title -->
+            </div>
         </div>
         <div class="row">
-
-            <div class="col-lg-12">
-                <div class="row justify-content-md-center ">
+            <div class="col-12">
+                <div class="row justify-content-center">
                     {% for day in appointment %}
-                        <div class="col-md-8 mx-auto row-gap-3 shadow-sm p-3 mb-2 bg-body-tertiary rounded">
-                            <div class="row">
-                                <p>{{ day.day }}</p>
-                                <p>{{ day.date }}</p>
-                                <div class="d-flex flex-row">
-                                    {% for time in  day.free_time %}
-                                        <div class="row-md-8 mx-auto shadow-sm p-3 mb-2 bg-body-tertiary rounded">
-                                            <a href="
-
-
-
-
-                                                    {% url 'services:booking' %}{% if barbershop %}?barbershop={{ barbershop.id }}{% endif %}{% if barber %}&barber={{ barber.id }}{% endif %}{% if service %}&service={{ service.id }}{% endif %}{% if appointment %}&appointment={{ day.date }}-{{ time.hour|time:'H:i' }}{% endif %}">{{ time.hour|time:'H:i' }}</a>
-                                        </div>
-                                    {% endfor %}
-                                </div>
+                        <div class="col-8 mx-auto shadow-sm p-3 mb-2 bg-body-tertiary rounded">
+                            <p>{{ day.day }}</p>
+                            <p>{{ day.date }}</p>
+                            <div class="d-flex flex-wrap">
+                                {% for time in day.free_time %}
+                                    <div class=" mx-1 shadow-sm p-1 p-lg-2 p-xl-3 mb-2 bg-body-tertiary rounded">
+                                        <a href="{% url 'services:booking' %}?{% if barbershop %}barbershop={{ barbershop.id }}&{% endif %}{% if barber %}barber={{ barber.id }}&{% endif %}{% if service %}service={{ service.id }}&{% endif %}{% if appointment %}appointment={{ day.date }}-{{ time.hour|time:'H:i' }}{% endif %}">{{ time.hour|time:'H:i' }}</a>
+                                    </div>
+                                {% endfor %}
+                                <div class="clearfix"></div>
                             </div>
                         </div>
                     {% endfor %}
@@ -48,4 +41,6 @@
             </div>
         </div>
     </section>
+
+
 {% endblock %}
