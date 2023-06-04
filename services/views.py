@@ -145,9 +145,9 @@ def appointment(request):
         weekday = curr_day.strftime("%A").upper()
         day["date"] = str(curr_day)
         day["day"] = weekday
-        b = Booking.objects.filter(barber=get_barber, appointment_date=f'{curr_day}')
-        if b:
-            day['free_time'] = WorkingTime.objects.exclude(pk__in=[x.appointment_time_id for x in b])
+        get_booking = Booking.objects.filter(barber=get_barber, appointment_date=f'{curr_day}')
+        if get_booking:
+            day['free_time'] = WorkingTime.objects.exclude(pk__in=[x.appointment_time_id for x in get_booking])
         else:
             day['free_time'] = working_time
             print(working_time)
