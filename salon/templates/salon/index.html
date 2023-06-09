@@ -46,12 +46,14 @@
                                     <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li class="text-center"><a href="
+
                                             {% url 'index' %}{% if sorted_filter %}?sorted={{ sorted_filter }}{% endif %}">Все</a>
                                     </li>
                                     {% for barbershop_city in city %}
                                         <hr>
                                         <li class="text-center"><a
-                                                href="{% url 'index' %}?city={{ barbershop_city.name }}{% if sorted_filter %}&sorted={{ sorted_filter }}{% endif %}">{{ barbershop_city.name }}</a>
+                                                href="{% url 'index' %}?city=
+                                                        {{ barbershop_city.name }}{% if sorted_filter %}&sorted={{ sorted_filter }}{% endif %}">{{ barbershop_city.name }}</a>
                                         </li>
                                     {% endfor %}
                                 </ul>
@@ -66,16 +68,17 @@
                 {% if barbershops %}
 
                     {% for barbershop in barbershops %}
-                        <div class="col-xxl-12 col-xl-12">
+                        <div class="col-12 col-12">
                             <div class="card mb-3">
                                 <div class="row g-0">
-                                    <div class="col-md-4">
+                                    <div class="col-4">
                                         {#                                        width="80"#}
                                         {#                                            height="80"#}
                                         <img src="/media/{{ barbershop.main_photo }}"
-                                             alt='{{ barbershop.name }}' class="img-fluid rounded-start barbershop-img">
+                                             alt='{{ barbershop.name }}' class="img-fluid rounded-start barbershop-img"
+                                             style="width: 400px; height: 200px">
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-8">
                                         <div class="card-body">
                                             <h5 class="card-title"><a
                                                     href="{% url 'detail' barbershop.pk %}">{{ barbershop.name }}</a>
@@ -108,13 +111,12 @@
 
                             </div>
                         </div>
-                        </div>
                     {% endfor %}
 
                 {% else %}
                     <p>No barbershops are available.</p>
                 {% endif %}
-        </div>
+            </div>
         </div>
     </section>
 {% endblock %}
