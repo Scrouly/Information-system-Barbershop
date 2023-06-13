@@ -142,7 +142,22 @@ def appointment(request):
     for i in range(7):
         day = {}
         curr_day = today + datetime.timedelta(days=i)
-        weekday = curr_day.strftime("%A").upper()
+        weekday_eng = curr_day.strftime("%A").upper()
+        match weekday_eng:
+            case "SATURDAY":
+                weekday = 'СУББОТА'
+            case "SUNDAY":
+                weekday = 'ВОСКРЕСЕНЬЕ'
+            case "MONDAY":
+                weekday = 'ПОНЕДЕЛЬНИК'
+            case "TUESDAY":
+                weekday = 'ВТОРНИК'
+            case "WEDNESDAY":
+                weekday = 'СРЕДА'
+            case "THURSDAY":
+                weekday = 'ЧЕТВЕРГ'
+            case "FRIDAY":
+                weekday = 'ПЯТНИЦА'
         day["date"] = str(curr_day)
         day["day"] = weekday
         get_booking = Booking.objects.filter(barber=get_barber, appointment_date=f'{curr_day}')

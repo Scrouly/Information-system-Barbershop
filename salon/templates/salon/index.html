@@ -52,8 +52,7 @@
                                     {% for barbershop_city in city %}
                                         <hr>
                                         <li class="text-center"><a
-                                                href="{% url 'index' %}?city=
-                                                        {{ barbershop_city.name }}{% if sorted_filter %}&sorted={{ sorted_filter }}{% endif %}">{{ barbershop_city.name }}</a>
+                                                href="{% url 'index' %}?city={{ barbershop_city.name }}{% if sorted_filter %}&sorted={{ sorted_filter }}{% endif %}">{{ barbershop_city.name }}</a>
                                         </li>
                                     {% endfor %}
                                 </ul>
