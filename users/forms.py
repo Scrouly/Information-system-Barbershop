@@ -134,7 +134,7 @@ class CustomUserProfileForm(UserChangeForm):
     gender = forms.ChoiceField(
         label="Пол",
         widget=forms.Select(attrs={"class": "form-control"}),
-        choices=(("male", "Male"), ("female", "Female"), ("other", "Other")),
+        choices=(("Мужской", "Мужской"), ("Женский", "Женский")),
     )
     phone_number = forms.CharField(
         label="Номер телефона",
@@ -145,7 +145,6 @@ class CustomUserProfileForm(UserChangeForm):
     birth_data = forms.DateField(
         label="Дата рождения",
         widget=forms.DateInput(attrs={"class": "form-control", "type": "date"}),
-        input_formats=["%Y-%m-%d"],
         required=False,
     )
     profile_img = forms.ImageField(

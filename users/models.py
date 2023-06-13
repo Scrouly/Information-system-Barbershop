@@ -8,11 +8,11 @@ from services.models import Qualifications
 
 class CustomUser(AbstractUser):
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
-                                 message="Phone number must be entered in the format: "
-                                         "'+999999999'. Up to 15 digits allowed.")
+                                 message="Номер телефона должен быть введен в формате: "
+                                         "'+999999999'. Допускается до 15 цифр.")
     phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)
-    gender = models.CharField(max_length=16, default='male')
-    birth_data = models.DateField(default='2000-01-01')
+    gender = models.CharField(max_length=16, default='Мужской')
+    birth_data = models.DateField(null=True, default='2000-01-01')
     profile_img = models.ImageField(upload_to='users/', null=True, default='users/default-user.png')
 
 

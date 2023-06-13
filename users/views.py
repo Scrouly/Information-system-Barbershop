@@ -86,14 +86,18 @@ def profile(request):
     get_reviews = Review.objects.filter(user=request.user)
     get_booking_reviews = [review.appointment for review in get_reviews]
     print([review.appointment for review in get_reviews])
+    print(f"--birth_data--{request.user.birth_data}")
     if request.method == "POST":
         form = CustomUserProfileForm(data=request.POST, files=request.FILES, instance=request.user)
+        print(f"--birth_data--{request.user.birth_data}")
         print(form.errors)
         if form.is_valid():
             print(form.data)
             form.save()
             return HttpResponseRedirect(reverse('users:profile'))
     else:
+        request.user.birth_data = request.user.birth_data.strftime('%Y-%m-%d') if request.user.birth_data else None
+        print(f"GET--birth_data--{request.user.birth_data}")
         form = CustomUserProfileForm(instance=request.user)
     context = {'form': form, "appointments": get_appointments, 'completed_appointments': get_completed_appointments,
                "last_appointment": get_last_appointment, "reviews": get_booking_reviews}
