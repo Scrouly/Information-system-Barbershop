@@ -71,7 +71,7 @@
                                                  data-bs-parent="#accordionFlushMyBooking">
                                                 <div class="accordion-body">
                                                     <h3>{{ appointment.barbershop }} {{ appointment.barber.user.first_name }}</h3>
-                                                    <h3>{{ appointment.service }}</h3>
+                                                    <h3>{{ appointment.service.service.name }} - {{appointment.service.price}} BYN</h3>
                                                     <a href="{% url 'services:delete_booking' appointment.pk %}"
                                                        class="btn btn-outline-danger">Отменить</a>
                                                 </div>

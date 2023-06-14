@@ -227,8 +227,18 @@ def stats_info(request, pk, barber_pk=None):
     get_barbers = [app.barber.user.username for app in current_appointments]
     barber_productivity = dict_for_pie(get_barbers)
 
-    current_reviews = [rating.rating for rating in Review.objects.filter(appointment__in=current_appointments)]
-
+    if 'week' in full_path or 'month' in full_path:
+        print(this_week_all_dates)
+        current_reviews = [rating.rating for rating in
+                           Review.objects.filter(barber__barbershop_id=pk, created_time__date__in=this_week_all_dates)]
+        print(current_reviews)
+    else:
+        print(today.strftime("%Y:%m:%d"))
+        current_reviews = [rating.rating for rating in
+                           Review.objects.filter(barber__barbershop_id=pk, created_time__date=today)]
+        print(current_reviews)
+    # current_reviews = [rating.rating for rating in Review.objects.filter(appointment__in=current_appointments)]
+    #
     reviews_info = dict(sorted(dict_for_pie(current_reviews).items(), key=lambda x: float(x[0])))
 
     print(reviews_info)
