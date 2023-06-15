@@ -64,7 +64,7 @@ def register(request):
         form = CustomUserCreationForm(data=request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Вы успешно зарегестрировались')
+            # messages.success(request, 'Вы успешно зарегестрировались')
             return HttpResponseRedirect(reverse('users:signin'))
 
     else:
