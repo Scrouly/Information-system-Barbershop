@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
-from users.models import CustomUser
+from users.models import CustomUser, phone_regex
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 
@@ -141,6 +141,7 @@ class CustomUserProfileForm(UserChangeForm):
         widget=forms.TextInput(attrs={"class": "form-control"}),
         max_length=15,
         required=False,
+        validators=[phone_regex],
     )
     birth_data = forms.DateField(
         label="Дата рождения",

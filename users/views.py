@@ -95,6 +95,11 @@ def profile(request):
             print(form.data)
             form.save()
             return HttpResponseRedirect(reverse('users:profile'))
+        else:
+            if form.errors['phone_number']:
+                messages.error(request, form.errors['phone_number'])
+            else:
+                messages.error(request, form.errors)
     else:
         request.user.birth_data = request.user.birth_data.strftime('%Y-%m-%d') if request.user.birth_data else None
         print(f"GET--birth_data--{request.user.birth_data}")

@@ -5,11 +5,12 @@ from django.core.validators import RegexValidator
 from salon.models import Barbershop
 from services.models import Qualifications
 
+phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
+                             message="Номер телефона должен быть введен в формате: "
+                                     "'+999999999'. Допускается до 15 цифр.")
+
 
 class CustomUser(AbstractUser):
-    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
-                                 message="Номер телефона должен быть введен в формате: "
-                                         "'+999999999'. Допускается до 15 цифр.")
     phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)
     gender = models.CharField(max_length=16, default='Мужской')
     birth_data = models.DateField(null=True, default='2000-01-01')
@@ -17,9 +18,9 @@ class CustomUser(AbstractUser):
 
 
 class Barber(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)
-    qualification = models.ForeignKey(Qualifications, on_delete=models.CASCADE, blank=True, null=True)
-    barbershop = models.ForeignKey(Barbershop, on_delete=models.CASCADE, blank=True, null=True)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, unique=True)
+    qualification = models.ForeignKey(Qualifications, on_delete=models.CASCADE, null=True)
+    barbershop = models.ForeignKey(Barbershop, on_delete=models.CASCADE, null=True)
     rating = models.FloatField(default=0)
 
     def __str__(self):

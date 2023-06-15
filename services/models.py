@@ -12,7 +12,6 @@ class Qualifications(models.Model):
 
 class Services(models.Model):
     name = models.CharField(max_length=100)
-    duration_hours = models.FloatField()
 
     def __str__(self):
         return self.name

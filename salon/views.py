@@ -41,9 +41,12 @@ def detail_view(request, pk):
 
     barbershop_name = get_object_or_404(Barbershop, pk=pk)
     working_time = [time.hour for time in WorkingTime.objects.all()]
-    time = []
-    time.append(min(working_time))
-    time.append(max(working_time))
+    if working_time:
+        time = []
+        time.append(min(working_time))
+        time.append(max(working_time))
+    else:
+        time = [0,0]
     reviews = Review.objects.filter(barber__barbershop=barbershop_name)
     if sorted_filter == 'up':
         reviews = reviews.order_by('rating')
