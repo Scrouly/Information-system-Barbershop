@@ -32,10 +32,6 @@ def graph(daily_appointments, working_time):
         revenue_per_hour_list.append(float(temp_revenue))
         customers_per_hour_list.append(len(set(temp_customers)))
 
-    print(f"arr---{appointments_per_hour_list}")
-    print(f"arrreven---{revenue_per_hour_list}")
-    print(f"arrdfdfreven---{customers_per_hour_list}")
-
     return appointments_per_hour_list, revenue_per_hour_list, customers_per_hour_list
 
 
@@ -56,10 +52,6 @@ def daily_graph(daily_appointments, working_time):
         revenue_per_day_list.append(float(temp_revenue))
         customers_per_day_list.append(len(set(temp_customers)))
 
-    print(f"appointments_per_day_list---{appointments_per_day_list}")
-    print(f"revenue_per_day_list---{revenue_per_day_list}")
-    print(f"customers_per_day_list---{customers_per_day_list}")
-
     return appointments_per_day_list, revenue_per_day_list, customers_per_day_list
 
 
@@ -76,5 +68,4 @@ def back_dates(current_day, last_day):
     while current_day >= last_day:
         all_dates.append(current_day.strftime('%Y-%m-%d'))
         current_day -= datetime.timedelta(days=1)
-    print(f"all_dates---{all_dates}")
     return all_dates

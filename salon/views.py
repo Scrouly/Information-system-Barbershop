@@ -13,7 +13,6 @@ def index(request):
     barbershop_name = Barbershop.objects.all()
     if city_filter:
         barbershop_name = barbershop_name.filter(city__name=city_filter)
-    print(city_filter)
     get_reviews = Review.objects.all()
 
     for barbershop in barbershop_name:

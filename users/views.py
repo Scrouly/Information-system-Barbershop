@@ -42,8 +42,6 @@ from users.models import CustomUser
 #         return render(request, self.template_name, context)
 
 def login(request):
-    print(request.GET)
-    print(request.POST)
     if request.method == "POST":
         form = CustomUserAuthentificationForm(data=request.POST)
         if form.is_valid():
@@ -80,19 +78,12 @@ def profile(request):
     get_completed_appointments = get_appointments.filter(completed=True).order_by('-appointment_date',
                                                                                   '-appointment_time')
     get_last_appointment = get_completed_appointments.first()
-    print(get_last_appointment)
     get_appointments = get_appointments.filter(completed=False).order_by('appointment_date', 'appointment_time')
-    print(get_appointments)
     get_reviews = Review.objects.filter(user=request.user)
     get_booking_reviews = [review.appointment for review in get_reviews]
-    print([review.appointment for review in get_reviews])
-    print(f"--birth_data--{request.user.birth_data}")
     if request.method == "POST":
         form = CustomUserProfileForm(data=request.POST, files=request.FILES, instance=request.user)
-        print(f"--birth_data--{request.user.birth_data}")
-        print(form.errors)
         if form.is_valid():
-            print(form.data)
             form.save()
             return HttpResponseRedirect(reverse('users:profile'))
         else:
@@ -102,7 +93,6 @@ def profile(request):
                 messages.error(request, form.errors)
     else:
         request.user.birth_data = request.user.birth_data.strftime('%Y-%m-%d') if request.user.birth_data else None
-        print(f"GET--birth_data--{request.user.birth_data}")
         form = CustomUserProfileForm(instance=request.user)
     context = {'form': form, "appointments": get_appointments, 'completed_appointments': get_completed_appointments,
                "last_appointment": get_last_appointment, "reviews": get_booking_reviews}

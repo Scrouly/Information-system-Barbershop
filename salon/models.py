@@ -16,7 +16,7 @@ class Barbershop(models.Model):
                                          "'+999999999'. Up to 15 digits allowed.")
     name = models.CharField(max_length=32)
     short_description = models.CharField(max_length=256)
-    full_description = models.CharField(max_length=508)
+    full_description = models.CharField(max_length=1024)
     phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)
     email = models.EmailField()
     main_photo = models.ImageField(upload_to='salon/photos/%Y/%m/%d')

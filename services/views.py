@@ -22,10 +22,7 @@ def booking_success(request):
 
 @login_required()
 def booking(request):
-    print(f"--GET--{request.GET}")
-    print(f"--POST--{request.POST}")
     get_user = get_object_or_404(CustomUser, username=request.user)
-    print(get_user)
     barbershop = get_object_or_404(Barbershop, pk=request.GET.get('barbershop'))
     get_barber = Barber.objects.filter(pk=request.GET.get('barber'), barbershop=barbershop).first()
     if get_barber:
@@ -68,8 +65,6 @@ def booking(request):
 
     if request.method == "POST":
         date_str, time_str = '-'.join(get_appointment.split('-')[:3]), get_appointment.split('-')[3]
-        print(f"date_str---{date_str}")
-        print(f"time_str---{time_str}")
         try:
             appointment_time = get_object_or_404(WorkingTime, hour__exact=time_str + ":00")
         except TypeError or ValidationError:
@@ -84,7 +79,6 @@ def booking(request):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('services:success'))
-            print('gg WP')
     context = {'barbershop': barbershop, 'barber': get_barber, "service": get_service, 'appointment': get_appointment,
                'form': form}
     return render(request, 'services/booking.html', context)
@@ -165,11 +159,9 @@ def appointment(request):
             day['free_time'] = WorkingTime.objects.exclude(pk__in=[x.appointment_time_id for x in get_booking])
         else:
             day['free_time'] = working_time
-            print(working_time)
         if today == curr_day:
             curr_time = int(datetime.datetime.now().strftime("%H"))
             for time in day['free_time']:
-                print(f"time--{time.hour.strftime('%H')}")
                 if int(time.hour.strftime('%H')) <= curr_time:
                     day['free_time'] = day['free_time'].exclude(hour=time.hour)
         if day['free_time']:
